@@ -6,6 +6,7 @@ import {
   findNodeHandle,
   type NativeSyntheticEvent,
   LayoutAnimation,
+  View,
 } from 'react-native';
 import type { Config } from './models';
 import React, {
@@ -76,8 +77,8 @@ export interface ITapCardViewNativeProps {
   }: NativeSyntheticEvent<{ data: Object }>) => void;
 }
 
-UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+// UIManager.setLayoutAnimationEnabledExperimental &&
+//   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 function TapCardView(
   {
@@ -96,6 +97,7 @@ function TapCardView(
   const viewRef =
     useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
   const [height, setHeight] = useState(style.height ?? 95);
+  const [addFlex, setAddFlex] = useState(false);
 
   const generateToken = useCallback(() => {
     return UIManager.dispatchViewManagerCommand(
@@ -133,6 +135,10 @@ function TapCardView(
 
   const handleOnReady = () => {
     onReady();
+    setAddFlex(true);
+    setTimeout(() => {
+      setAddFlex(false);
+    }, 1);
   };
 
   const handleOnFocus = () => {
@@ -156,18 +162,26 @@ function TapCardView(
   };
 
   return (
-    <CardSdkReactNativeView
-      style={{ ...style, height: height }}
-      config={config}
-      ref={viewRef}
-      onSuccess={handleOnSuccess}
-      onReadyCallback={handleOnReady}
-      onFocusCallback={handleOnFocus}
-      onHeightChange={handleOnHeightChange}
-      onBinIdentification={handleOnBinIdentification}
-      onInvalidInput={handleOnInvalidInput}
-      onError={handleOnError}
-    />
+    <View
+      style={{
+        ...style,
+        height: height,
+        flex: addFlex ? 0.1 : 0,
+      }}
+    >
+      <CardSdkReactNativeView
+        style={{ ...style, flex: 1, height: height }}
+        config={config}
+        ref={viewRef}
+        onSuccess={handleOnSuccess}
+        onReadyCallback={handleOnReady}
+        onFocusCallback={handleOnFocus}
+        onHeightChange={handleOnHeightChange}
+        onBinIdentification={handleOnBinIdentification}
+        onInvalidInput={handleOnInvalidInput}
+        onError={handleOnError}
+      />
+    </View>
   );
 }
 

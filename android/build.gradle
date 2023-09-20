@@ -24,6 +24,15 @@ apply plugin: "kotlin-android"
 
 def appProject = rootProject.allprojects.find { it.plugins.hasPlugin('com.android.application') }
 
+rootProject.allprojects {
+  repositories {
+    google()
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+  }
+}
+
 if (isNewArchitectureEnabled()) {
   apply plugin: "com.facebook.react"
 }
@@ -97,7 +106,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.Tap-Payments:Tap-Card-SDK-Android:0.0.7'
+  implementation 'com.github.Tap-Payments:Tap-Card-SDK-Android:0.0.17'
 }
 
 if (isNewArchitectureEnabled()) {
