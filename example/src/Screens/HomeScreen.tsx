@@ -171,6 +171,10 @@ function HomeScreen({ navigation }: Props) {
             );
           }}
           onInvalidInput={(invalidInput: boolean) => {
+            console.log(
+              '🚀 ~ file: HomeScreen.tsx:174 ~ HomeScreen ~ invalidInput:',
+              invalidInput
+            );
             setInvalid(invalidInput);
             setResponse(
               `${response} \n =====onInvalidInputStart==== \n ${invalid} \n =====onInvalidInputEnd===== \n`
@@ -187,7 +191,7 @@ function HomeScreen({ navigation }: Props) {
           }}
         />
         <TouchableOpacity
-          disabled={invalid}
+          // disabled={invalid}
           onPress={() => {
             testRef.current.generateToken();
           }}

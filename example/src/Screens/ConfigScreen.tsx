@@ -58,6 +58,7 @@ function ConfigScreen({ route, navigation }: Props) {
     setValue('amount', config.transaction.amount.toString());
     setValue('currency', config.transaction.currency);
     setValue('customerId', config.customer.id);
+    setValue('nameOnCard', config.customer.nameOnCard);
     setValue('firstName', config.customer.name[0]?.first);
     setValue('lastName', config.customer.name[0]?.last);
     setValue('middleName', config.customer.name[0]?.middle);
@@ -88,6 +89,7 @@ function ConfigScreen({ route, navigation }: Props) {
     config.customer.editable,
     config.customer.id,
     config.customer.name,
+    config.customer.nameOnCard,
     config.fields.cardHolder,
     config.interface.direction,
     config.interface.edges,
@@ -109,7 +111,7 @@ function ConfigScreen({ route, navigation }: Props) {
       transaction: { amount: data.amount, currency: data.currency },
       customer: {
         editable: data.editable,
-        nameOnCard: data.firstName,
+        nameOnCard: data.nameOnCard ?? data.firstName,
         id: data.customerId,
         name: [
           {
@@ -343,6 +345,22 @@ function ConfigScreen({ route, navigation }: Props) {
                   message: 'Please fill out all required fields.',
                 },
               }}
+            />
+
+            <Text>{'First name'}</Text>
+            <Controller
+              control={control}
+              name="nameOnCard"
+              render={({ field: { onChange, value } }) => (
+                <View style={styles.textBox}>
+                  <TextInput
+                    style={styles.text}
+                    placeholder="Name on Card"
+                    defaultValue={value}
+                    onChangeText={(v) => onChange(v)}
+                  />
+                </View>
+              )}
             />
 
             {errors.firstName?.message ? (

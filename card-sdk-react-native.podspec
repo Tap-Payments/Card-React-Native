@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "13.0" }
-  s.source       = { :git => "https://github.com/mAllamTapPayments/card-sdk-react-native.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/Tap-Payments/Tap-Card-SDK-RN.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
     s.dependency 'Tap-Card-SDK'
   else
   s.dependency "React-Core"
-  s.dependency 'Tap-Card-SDK'
+  s.dependency 'Tap-Card-SDK','0.0.13'
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
     s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"

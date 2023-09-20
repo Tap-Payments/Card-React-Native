@@ -6,6 +6,8 @@ import {
   findNodeHandle,
   type NativeSyntheticEvent,
   LayoutAnimation,
+  View,
+  ScrollView,
 } from 'react-native';
 import type { Config } from './models';
 import React, {
@@ -76,8 +78,8 @@ export interface ITapCardViewNativeProps {
   }: NativeSyntheticEvent<{ data: Object }>) => void;
 }
 
-UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+// UIManager.setLayoutAnimationEnabledExperimental &&
+//   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 function TapCardView(
   {
@@ -96,8 +98,14 @@ function TapCardView(
   const viewRef =
     useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
   const [height, setHeight] = useState(style.height ?? 95);
+  const [addFlex, setAddFlex] = useState(false);
 
   const generateToken = useCallback(() => {
+    console.log(
+      '🚀 ~ file: index.tsx:113 ~ generateToken ~ generateToken:',
+      findNodeHandle(viewRef.current)
+    );
+
     return UIManager.dispatchViewManagerCommand(
       // @ts-ignore
       findNodeHandle(viewRef.current),
@@ -133,6 +141,10 @@ function TapCardView(
 
   const handleOnReady = () => {
     onReady();
+    setAddFlex(true);
+    setTimeout(() => {
+      setAddFlex(false);
+    }, 1);
   };
 
   const handleOnFocus = () => {
@@ -147,6 +159,7 @@ function TapCardView(
   const handleOnInvalidInput = ({
     nativeEvent: { data },
   }: NativeSyntheticEvent<{ data: boolean }>) => {
+    console.log('🚀 ~ file: index.tsx:157 ~ data:', data);
     onInvalidInput(data);
   };
   const handleOnError = ({
@@ -154,20 +167,37 @@ function TapCardView(
   }: NativeSyntheticEvent<{ data: object }>) => {
     onError(data);
   };
+  console.log('🚀 ~ file: index.tsx:161 ~ height:', typeof height);
 
   return (
-    <CardSdkReactNativeView
-      style={{ ...style, height: height }}
-      config={config}
-      ref={viewRef}
-      onSuccess={handleOnSuccess}
-      onReadyCallback={handleOnReady}
-      onFocusCallback={handleOnFocus}
-      onHeightChange={handleOnHeightChange}
-      onBinIdentification={handleOnBinIdentification}
-      onInvalidInput={handleOnInvalidInput}
-      onError={handleOnError}
-    />
+    <View
+      style={{
+        ...style,
+        height: height,
+        flex: addFlex ? 0.1 : 0,
+      }}
+    >
+      {/* <ScrollView
+        style={{ backgroundColor: 'blue', margin: 5 }}
+        contentContainerStyle={{
+          backgroundColor: 'yellow',
+          margin: 5,
+        }}
+      > */}
+      <CardSdkReactNativeView
+        style={{ ...style, flex: 1, height: height }}
+        config={config}
+        ref={viewRef}
+        onSuccess={handleOnSuccess}
+        onReadyCallback={handleOnReady}
+        onFocusCallback={handleOnFocus}
+        onHeightChange={handleOnHeightChange}
+        onBinIdentification={handleOnBinIdentification}
+        onInvalidInput={handleOnInvalidInput}
+        onError={handleOnError}
+      />
+      {/* </ScrollView> */}
+    </View>
   );
 }
 

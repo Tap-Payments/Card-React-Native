@@ -1,6 +1,6 @@
 PODS:
   - boost (1.76.0)
-  - card-sdk-react-native (0.1.0):
+  - card-sdk-react-native (0.0.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - Tap-Card-SDK
@@ -78,7 +78,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.72.4)
   - hermes-engine/Pre-built (0.72.4)
   - libevent (2.1.12)
-  - lottie-ios (4.3.0)
+  - lottie-ios (4.3.1)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -495,24 +495,34 @@ PODS:
   - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
-  - SharedDataModels-iOS (0.0.11)
+  - SharedDataModels-iOS (0.0.12)
   - SnapKit (5.6.0)
   - SocketRocket (0.6.1)
   - SwiftEntryKit (2.0.0)
   - SwiftyRSA (1.7.0):
     - SwiftyRSA/ObjC (= 1.7.0)
   - SwiftyRSA/ObjC (1.7.0)
-  - Tap-Card-SDK (0.0.10):
+  - Tap-Card-SDK (0.0.14):
     - lottie-ios
     - SharedDataModels-iOS
     - SnapKit
     - SwiftEntryKit
     - SwiftyRSA
     - TapCardScannerWebWrapper-iOS
+    - TapFontKit-iOS
   - TapCardScannerWebWrapper-iOS (0.0.8):
     - SharedDataModels-iOS
     - TapCardVlidatorKit-iOS
   - TapCardVlidatorKit-iOS (1.0.24)
+  - TapFontKit-iOS (0.0.10):
+    - TapSwiftFixesV2
+  - TapSwiftFixesV2 (1.0.3):
+    - TapSwiftFixesV2/CoreGraphics (= 1.0.3)
+    - TapSwiftFixesV2/Exceptions (= 1.0.3)
+    - TapSwiftFixesV2/Threading (= 1.0.3)
+  - TapSwiftFixesV2/CoreGraphics (1.0.3)
+  - TapSwiftFixesV2/Exceptions (1.0.3)
+  - TapSwiftFixesV2/Threading (1.0.3)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -608,6 +618,8 @@ SPEC REPOS:
     - Tap-Card-SDK
     - TapCardScannerWebWrapper-iOS
     - TapCardVlidatorKit-iOS
+    - TapFontKit-iOS
+    - TapSwiftFixesV2
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -699,7 +711,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
-  card-sdk-react-native: c7a370ee4a77116a6596eea43231a3951d89f1ad
+  card-sdk-react-native: 559ffa8c3f2c0d6d7531765e01984ba99b594388
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 5d4a3b7f411219a45a6d952f77d2c0a6c9989da5
@@ -716,7 +728,7 @@ SPEC CHECKSUMS:
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 81191603c4eaa01f5e4ae5737a9efcf64756c7b2
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  lottie-ios: c69214a487e1a1465a231c1918c6ce174e2d45bc
+  lottie-ios: 6279047f1cc31b395e11f1fc24f3dab68cbf0df2
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: c0569ecc035894e4a68baecb30fe6a7ea6e399f9
@@ -752,14 +764,16 @@ SPEC CHECKSUMS:
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
-  SharedDataModels-iOS: ec70113ee15cfd58f64c8db2dd1027287be3274e
+  SharedDataModels-iOS: 03d22b8a256a6ce698180b24d3ff8fefe42707b1
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SwiftEntryKit: 61b5fa36f34a97dd8013e48a7345bc4c4720be9a
   SwiftyRSA: 8c6dd1ea7db1b8dc4fb517a202f88bb1354bc2c6
-  Tap-Card-SDK: a0ce5cb0dc991266567b4421f9b4fee3a262dcf8
+  Tap-Card-SDK: e9d8d3761276e7af7a1f8d5b7361cb46263f34fd
   TapCardScannerWebWrapper-iOS: c8f05e90f418e910600db43e082a81ae6e5af8ad
   TapCardVlidatorKit-iOS: 05d3e644dddd6aa52dd95cc85a2c41f7ce0ba2f9
+  TapFontKit-iOS: cd7376aec8f7edd97145cd0daa5ce584859429c1
+  TapSwiftFixesV2: ea726f752b6259d9e44624039fd6bad94b2a8633
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
