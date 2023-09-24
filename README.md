@@ -14,7 +14,7 @@ You can always use the example keys within our example app, but we do recommend 
 
 We got you covered, `TapCardSDK` can be installed with all possible technologies.
 
-## Cocoapods
+## Node modules
 
 ```sh
 npm install card-sdk-react-native
@@ -26,6 +26,7 @@ yarn install card-sdk-react-native
 
 Then run in your terminal
 ```swift
+cd ios
 pod install
 pod update
 ```
