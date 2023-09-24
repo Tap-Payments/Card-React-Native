@@ -181,7 +181,7 @@ import TapCardView, {
           ref={tapCardRef}
           style={{ width: '100%' }}
           config={config}
-                    onSuccess={(tokenValue) => {}}
+          onSuccess={(tokenValue) => {}}
           onHeightChange={(height) => {}}
           onReady={() => {}}
           onFocus={() => {}}
