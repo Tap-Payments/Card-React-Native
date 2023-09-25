@@ -56,6 +56,22 @@ function HomeScreen({ navigation }: Props) {
     transaction: {
       amount: 1,
       currency: TapCurrencyCode.SAR,
+      description: '',
+      metadata: {},
+      reference: `tck_LV${generateTransactionId()}`,
+    },
+    order: {
+      id: `${generateOrderId()}`,
+    },
+    invoice: {
+      id: 'Map to authenticate.reference.invoice',
+    },
+    post: {
+      url: 'Map to authenticate.reference.post',
+    },
+    purpose: 'PAYMENT_TRANSACTION',
+    operator: {
+      publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     },
     scope: Scope.Authenticate,
     customer: {
@@ -100,24 +116,6 @@ function HomeScreen({ navigation }: Props) {
       theme: Theme.dark,
       edges: Edges.curved,
       direction: Direction.ltr,
-    },
-    authentication: {
-      authentication: {
-        channel: 'PAYER_BROWSER',
-        purpose: 'PAYMENT_TRANSACTION',
-      },
-      description: 'Authentication description',
-      metadata: {
-        utf1: 'data',
-      },
-      reference: {
-        transaction: `tck_LV${generateTransactionId()}`,
-        order: `${generateOrderId()}`,
-      },
-      invoice: {
-        id: '',
-      },
-      post: { url: '' },
     },
   });
 

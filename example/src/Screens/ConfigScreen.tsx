@@ -96,6 +96,7 @@ function ConfigScreen({ route, navigation }: Props) {
     config.interface.locale,
     config.interface.theme,
     config.merchant.id,
+    config.operator.publicKey,
     config.publicKey,
     config.scope,
     config.transaction.amount,
@@ -107,8 +108,13 @@ function ConfigScreen({ route, navigation }: Props) {
     setConfig({
       ...config,
       publicKey: data.key,
+      operator: { publicKey: data.key },
       merchant: { id: data.merchantId },
-      transaction: { amount: data.amount, currency: data.currency },
+      transaction: {
+        ...config.transaction,
+        amount: data.amount,
+        currency: data.currency,
+      },
       customer: {
         editable: data.editable,
         nameOnCard: data.nameOnCard ?? data.firstName,

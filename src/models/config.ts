@@ -10,7 +10,13 @@ import type {
 } from './enums';
 
 export type Merchant = { id: String };
-export type Transaction = { amount: number; currency: TapCurrencyCode };
+export type Transaction = {
+  amount: number;
+  currency: TapCurrencyCode;
+  description: String;
+  metadata: Object;
+  reference: String;
+};
 export type Phone = { countryCode: String; number: String };
 export type Fields = { cardHolder: boolean };
 export type InterfaceConfig = {
@@ -62,24 +68,36 @@ export type AuthenticationTransaction = {
   order: String;
 };
 
-export type Authentication = {
-  description: String;
-  metadata: Object;
-  reference: AuthenticationTransaction;
-  post: AuthenticationPost;
-  invoice: AuthenticationTransactionInvoice;
-  authentication: AuthenticationConfig;
+export type Order = {
+  id: String;
+};
+
+export type Invoice = {
+  id: String;
+};
+
+export type Post = {
+  url: String;
 };
 
 export type Config = {
   publicKey: String;
-  scope: Scope;
   merchant: Merchant;
   transaction: Transaction;
-  customer: Customer;
-  acceptance: Acceptance;
+  order: Order;
+  invoice: Invoice;
+  post: Post;
+  operator: { publicKey: String };
+  purpose:
+    | 'PAYMENT_TRANSACTION'
+    | 'RECURRING_TRANSACTION'
+    | 'INSTALLMENT_TRANSACTION'
+    | 'ADD_CARD'
+    | 'CARDHOLDER_VERIFICATION';
   fields: Fields;
+  acceptance: Acceptance;
   addons: Addons;
   interface: InterfaceConfig;
-  authentication: Authentication;
+  scope: Scope;
+  customer: Customer;
 };
