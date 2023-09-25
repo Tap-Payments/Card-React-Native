@@ -114,15 +114,44 @@ var config: Config = {
     merchant: {
       id: '',
     },
-    transaction: { amount: 1, currency: TapCurrencyCode.SAR },
+    transaction: {
+      amount: 1,
+      currency: TapCurrencyCode.SAR,
+      description: '',
+      metadata: {},
+      reference: `tck_LV${generateTransactionId()}`,
+    },
+    order: {
+      id: `${generateOrderId()}`,
+    },
+    invoice: {
+      id: 'Map to authenticate.reference.invoice',
+    },
+    post: {
+      url: 'Map to authenticate.reference.post',
+    },
+    purpose: 'PAYMENT_TRANSACTION',
+    operator: {
+      publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
+    },
     scope: Scope.Authenticate,
     customer: {
       nameOnCard: 'Tap Payments',
       editable: true,
       id: '',
-      name: [{ first: 'Tap', lang: Locale.en, middle: '', last: 'Payments' }],
+      name: [
+        {
+          first: 'Tap',
+          lang: Locale.en,
+          middle: '',
+          last: 'Payments',
+        },
+      ],
       contact: {
-        phone: { number: '88888888', countryCode: '+965' },
+        phone: {
+          number: '88888888',
+          countryCode: '+965',
+        },
         email: 'tappayments@tap.company',
       },
     },
@@ -135,27 +164,19 @@ var config: Config = {
       ],
       supportedCards: [SupportedCards.Debit, SupportedCards.Credit],
     },
-    fields: { cardHolder: true },
-    addons: { displayPaymentBrands: true, loader: true, saveCard: true },
+    fields: {
+      cardHolder: true,
+    },
+    addons: {
+      displayPaymentBrands: true,
+      loader: true,
+      saveCard: true,
+    },
     interface: {
       locale: Locale.en,
       theme: Theme.dark,
       edges: Edges.curved,
       direction: Direction.ltr,
-    },
-    authentication: {
-      authentication: {
-        channel: 'PAYER_BROWSER',
-        purpose: 'PAYMENT_TRANSACTION',
-      },
-      description: 'Authentication description',
-      metadata: { utf1: 'data' },
-      reference: {
-        transaction: `tck_LV${generateTransactionId()}`,
-        order: `${generateOrderId()}`,
-      },
-      invoice: { id: '' },
-      post: { url: '' },
     },
   }
 ```
