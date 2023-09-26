@@ -171,7 +171,13 @@ function TapCardView(
     >
       <CardSdkReactNativeView
         style={{ ...style, flex: 1, height: height }}
-        config={config}
+        config={{
+          ...config,
+          addons: {
+            ...config.addons,
+            nfc: Platform.OS === 'ios' ? false : config.addons.nfc,
+          },
+        }}
         ref={viewRef}
         onSuccess={handleOnSuccess}
         onReadyCallback={handleOnReady}

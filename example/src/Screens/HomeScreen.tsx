@@ -82,7 +82,7 @@ function HomeScreen({ navigation }: Props) {
         {
           first: 'Tap',
           lang: Locale.en,
-          middle: '',
+          middle: 'Company',
           last: 'Payments',
         },
       ],
@@ -110,6 +110,8 @@ function HomeScreen({ navigation }: Props) {
       displayPaymentBrands: true,
       loader: true,
       saveCard: true,
+      scanner: true,
+      nfc: true,
     },
     interface: {
       locale: Locale.en,

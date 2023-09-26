@@ -26,6 +26,8 @@ export type Addons = {
   displayPaymentBrands: boolean;
   loader: boolean;
   saveCard: boolean;
+  scanner: boolean;
+  nfc: boolean;
 };
 export type Acceptance = {
   supportedBrands: SupportedBrands[];

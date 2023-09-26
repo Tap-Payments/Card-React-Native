@@ -70,6 +70,8 @@ function ConfigScreen({ route, navigation }: Props) {
     setCardBrands(config.acceptance.supportedBrands);
     setValue('saveCard', config.addons.saveCard);
     setValue('loader', config.addons.loader);
+    setValue('scanner', config.addons.scanner);
+    setValue('nfc', config.addons.nfc);
     setValue('displayPaymentBrands', config.addons.displayPaymentBrands);
     setValue('cardHolder', config.fields.cardHolder);
     setValue('edges', config.interface.edges);
@@ -82,7 +84,9 @@ function ConfigScreen({ route, navigation }: Props) {
     config.acceptance.supportedCards,
     config.addons.displayPaymentBrands,
     config.addons.loader,
+    config.addons.nfc,
     config.addons.saveCard,
+    config.addons.scanner,
     config.customer.contact.email,
     config.customer.contact.phone.countryCode,
     config.customer.contact.phone.number,
@@ -146,6 +150,8 @@ function ConfigScreen({ route, navigation }: Props) {
         saveCard: data.saveCard,
         loader: data.loader,
         displayPaymentBrands: data.displayPaymentBrands,
+        scanner: data.scanner,
+        nfc: data.nfc,
       },
       fields: {
         cardHolder: data.cardHolder,
@@ -614,6 +620,39 @@ function ConfigScreen({ route, navigation }: Props) {
                   <Controller
                     control={control}
                     name="displayPaymentBrands"
+                    defaultValue={false}
+                    render={({ field: { onChange, value } }) => {
+                      return (
+                        <Switch
+                          value={value}
+                          onValueChange={(val: boolean) => {
+                            onChange(val);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                  <Text style={{ marginVertical: 10 }}>{'Scanner'}</Text>
+                  <Controller
+                    control={control}
+                    name="scanner"
+                    defaultValue={false}
+                    render={({ field: { onChange, value } }) => {
+                      return (
+                        <Switch
+                          value={value}
+                          onValueChange={(val: boolean) => {
+                            onChange(val);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+
+                  <Text style={{ marginVertical: 10 }}>{'NFC'}</Text>
+                  <Controller
+                    control={control}
+                    name="nfc"
                     defaultValue={false}
                     render={({ field: { onChange, value } }) => {
                       return (
