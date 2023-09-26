@@ -55,8 +55,8 @@ function ConfigScreen({ route, navigation }: Props) {
   useEffect(() => {
     setValue('key', config.publicKey);
     setValue('merchantId', config.merchant.id);
-    setValue('amount', config.transaction.amount.toString());
-    setValue('currency', config.transaction.currency);
+    setValue('amount', config.order.amount.toString());
+    setValue('currency', config.order.currency);
     setValue('customerId', config.customer.id);
     setValue('nameOnCard', config.customer.nameOnCard);
     setValue('firstName', config.customer.name[0]?.first);
@@ -97,10 +97,10 @@ function ConfigScreen({ route, navigation }: Props) {
     config.interface.theme,
     config.merchant.id,
     config.operator.publicKey,
+    config.order.amount,
+    config.order.currency,
     config.publicKey,
     config.scope,
-    config.transaction.amount,
-    config.transaction.currency,
     setValue,
   ]);
 
@@ -110,10 +110,13 @@ function ConfigScreen({ route, navigation }: Props) {
       publicKey: data.key,
       operator: { publicKey: data.key },
       merchant: { id: data.merchantId },
-      transaction: {
-        ...config.transaction,
+      order: {
+        ...config.order,
         amount: data.amount,
         currency: data.currency,
+      },
+      transaction: {
+        ...config.transaction,
       },
       customer: {
         editable: data.editable,

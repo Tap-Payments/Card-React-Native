@@ -54,13 +54,13 @@ function HomeScreen({ navigation }: Props) {
       id: '',
     },
     transaction: {
-      amount: 1,
-      currency: TapCurrencyCode.SAR,
-      description: '',
       metadata: {},
       reference: `tck_LV${generateTransactionId()}`,
     },
     order: {
+      amount: 1,
+      currency: TapCurrencyCode.SAR,
+      description: '',
       id: `${generateOrderId()}`,
     },
     invoice: {

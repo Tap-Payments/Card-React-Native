@@ -1,6 +1,6 @@
 PODS:
   - boost (1.76.0)
-  - card-sdk-react-native (0.0.2):
+  - card-sdk-react-native (0.0.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - Tap-Card-SDK
@@ -502,7 +502,7 @@ PODS:
   - SwiftyRSA (1.7.0):
     - SwiftyRSA/ObjC (= 1.7.0)
   - SwiftyRSA/ObjC (1.7.0)
-  - Tap-Card-SDK (0.0.15):
+  - Tap-Card-SDK (0.0.16):
     - lottie-ios
     - SharedDataModels-iOS
     - SnapKit
@@ -711,7 +711,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
-  card-sdk-react-native: 561d9212d5a4e1eb074d4b7e393d99ca10815531
+  card-sdk-react-native: 2925becc8eecd87b32215728ee872ad81636977f
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 5d4a3b7f411219a45a6d952f77d2c0a6c9989da5
@@ -769,7 +769,7 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   SwiftEntryKit: 61b5fa36f34a97dd8013e48a7345bc4c4720be9a
   SwiftyRSA: 8c6dd1ea7db1b8dc4fb517a202f88bb1354bc2c6
-  Tap-Card-SDK: 71c2edb998f00cbda4bee234421bf295940e601d
+  Tap-Card-SDK: bb0f0f4974af634c261b42627508eb8bd86f3c6c
   TapCardScannerWebWrapper-iOS: c8f05e90f418e910600db43e082a81ae6e5af8ad
   TapCardVlidatorKit-iOS: 05d3e644dddd6aa52dd95cc85a2c41f7ce0ba2f9
   TapFontKit-iOS: cd7376aec8f7edd97145cd0daa5ce584859429c1

@@ -11,9 +11,6 @@ import type {
 
 export type Merchant = { id: String };
 export type Transaction = {
-  amount: number;
-  currency: TapCurrencyCode;
-  description: String;
   metadata: Object;
   reference: String;
 };
@@ -70,6 +67,9 @@ export type AuthenticationTransaction = {
 
 export type Order = {
   id: String;
+  amount: number;
+  currency: TapCurrencyCode;
+  description: String;
 };
 
 export type Invoice = {
