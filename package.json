@@ -43,13 +43,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Tap-Payments/Tap-Card-SDK-RN",
+  "repository": "https://github.com/Tap-Payments/Card-SDK-React-Native",
   "author": "mahmoudAllam <m.allam@tap.company> (https://github.com/mAllamTapPayments)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Tap-Payments/Tap-Card-SDK-RN/issues"
+    "url": "https://github.com/Tap-Payments/Card-SDK-React-Native/issues"
   },
-  "homepage": "https://github.com/Tap-Payments/Tap-Card-SDK-RN#readme",
+  "homepage": "https://github.com/Tap-Payments/Card-SDK-React-Native#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

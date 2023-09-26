@@ -106,7 +106,7 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.Tap-Payments:Tap-Card-SDK-Android:0.0.21'
+	implementation 'com.github.Tap-Payments:Card-SDK-Android:0.0.21'
 }
 
 if (isNewArchitectureEnabled()) {
