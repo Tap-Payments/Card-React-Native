@@ -1,4 +1,4 @@
-import Tap_Card_SDK
+import Card_SDK_iOS
 @objc(CardSdkReactNativeViewManager)
 class CardSdkReactNativeViewManager: RCTViewManager {
     
