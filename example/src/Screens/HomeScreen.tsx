@@ -37,17 +37,18 @@ function HomeScreen({ navigation }: Props) {
     return result;
   };
 
-  const generateOrderId = () => {
-    let result = '';
-    const characters = '0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 17) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-  };
+  // const generateOrderId = () => {
+  //   let result = '';
+  //   const characters = '0123456789';
+  //   const charactersLength = characters.length;
+  //   let counter = 0;
+  //   while (counter < 17) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //     counter += 1;
+  //   }
+  //   return result;
+  // };
+
   const [config, setConfigState] = useState<Config>({
     publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     merchant: {
@@ -61,7 +62,7 @@ function HomeScreen({ navigation }: Props) {
       amount: 1,
       currency: TapCurrencyCode.SAR,
       description: '',
-      id: `${generateOrderId()}`,
+      id: '',
     },
     invoice: {
       id: 'Map to authenticate.reference.invoice',
