@@ -10,28 +10,38 @@ import type {
 } from './enums';
 
 export type Merchant = { id: String };
+export type PaymentAgreement = {
+  id: String;
+  contract: Contract;
+};
+export type Contract = {
+  id: String;
+};
 export type Transaction = {
   metadata: Object;
   reference: String;
+  paymentAgreement: PaymentAgreement;
 };
+
 export type Phone = { countryCode: String; number: String };
-export type Fields = { cardHolder: boolean };
+export type Fields = {
+  card: { cardHolder: boolean; cvv: boolean };
+};
 export type InterfaceConfig = {
   locale: Locale;
   theme: Theme;
   edges: Edges;
-  direction: Direction;
+  cardDirection: Direction;
+  colorStyle: 'monochrome' | 'colored';
+  powered: true;
 };
 export type Addons = {
-  displayPaymentBrands: boolean;
   loader: boolean;
-  saveCard: boolean;
-  scanner: boolean;
-  nfc: boolean;
 };
 export type Acceptance = {
-  supportedBrands: SupportedBrands[];
-  supportedCards: SupportedCards[];
+  supportedSchemes: SupportedBrands[];
+  supportedFundSource: SupportedCards[];
+  supportedPaymentAuthentications: ['3DS'] | [];
 };
 export type Contact = {
   email: String;
@@ -52,10 +62,6 @@ export type Customer = {
 };
 export type AuthenticationTransactionInvoice = {
   id: string;
-};
-export type AuthenticationConfig = {
-  channel: 'PAYER_BROWSER';
-  purpose: 'PAYMENT_TRANSACTION';
 };
 
 export type AuthenticationPost = {
@@ -81,7 +87,18 @@ export type Invoice = {
 export type Post = {
   url: String;
 };
-
+export type Redirect = {
+  url: String;
+};
+export type Features = {
+  scanner: boolean;
+  acceptanceBadge: boolean;
+  nfc: boolean;
+  customerCards: {
+    saveCard: boolean;
+    autoSaveCard: boolean;
+  };
+};
 export type Config = {
   publicKey: String;
   merchant: Merchant;
@@ -102,4 +119,6 @@ export type Config = {
   interface: InterfaceConfig;
   scope: Scope;
   customer: Customer;
+  redirect: Redirect;
+  features: Features;
 };

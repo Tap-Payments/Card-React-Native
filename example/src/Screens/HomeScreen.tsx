@@ -19,7 +19,7 @@ import TapCardView, {
   Direction,
   Scope,
   type ITapCardViewInputRef,
-} from 'card-sdk-react-native';
+} from 'card-react-native';
 import { useState, type MutableRefObject } from 'react';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>;
 
@@ -57,6 +57,12 @@ function HomeScreen({ navigation }: Props) {
     transaction: {
       metadata: {},
       reference: `tck_LV${generateTransactionId()}`,
+      paymentAgreement: {
+        id: '',
+        contract: {
+          id: '',
+        },
+      },
     },
     order: {
       amount: 1,
@@ -96,29 +102,40 @@ function HomeScreen({ navigation }: Props) {
       },
     },
     acceptance: {
-      supportedBrands: [
+      supportedSchemes: [
         SupportedBrands.AMEX,
         SupportedBrands.MASTERCARD,
         SupportedBrands.VISA,
         SupportedBrands.MADA,
       ],
-      supportedCards: [SupportedCards.Debit, SupportedCards.Credit],
+      supportedFundSource: [SupportedCards.Debit, SupportedCards.Credit],
+      supportedPaymentAuthentications: ['3DS'],
     },
     fields: {
-      cardHolder: true,
+      card: { cardHolder: true, cvv: true },
     },
     addons: {
-      displayPaymentBrands: true,
       loader: true,
-      saveCard: true,
-      scanner: true,
-      nfc: true,
     },
     interface: {
       locale: Locale.en,
       theme: Theme.dark,
       edges: Edges.curved,
-      direction: Direction.ltr,
+      cardDirection: Direction.ltr,
+      colorStyle: 'monochrome',
+      powered: true,
+    },
+    redirect: {
+      url: '',
+    },
+    features: {
+      customerCards: {
+        saveCard: true,
+        autoSaveCard: true,
+      },
+      scanner: true,
+      acceptanceBadge: true,
+      nfc: false,
     },
   });
 
@@ -154,7 +171,11 @@ function HomeScreen({ navigation }: Props) {
           onHeightChange={() => {}}
           onReady={() => {
             setResponse(
-              `${response} \n =====onReady==== \n onReady \n =====onReady===== \n`
+              `config${JSON.stringify(
+                config,
+                null,
+                2
+              )}${response} \n =====onReady==== \n onReady \n =====onReady===== \n`
             );
           }}
           onFocus={() => {

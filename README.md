@@ -1,4 +1,4 @@
-# card-sdk-react-native
+# card-react-native
 
 Tap Card SDK Wrapper
 
@@ -6,9 +6,9 @@ Tap Card SDK Wrapper
 
 We at [Tap Payments](https://www.tap.company/) strive to make your payments easier than ever. We as a PCI compliant company, provide you a from the self solution to process card payments in your iOS apps.
 
-
 # Get your Tap keys
-You can always use the example keys within our example app, but we do recommend you to head to our [onboarding](https://register.tap.company/sell)  page. You will need to register your `bundle id` to get your `Tap Key` that you will need to activate our `Card SDK`.
+
+You can always use the example keys within our example app, but we do recommend you to head to our [onboarding](https://register.tap.company/sell) page. You will need to register your `bundle id` to get your `Tap Key` that you will need to activate our `Card SDK`.
 
 # Installation
 
@@ -17,20 +17,20 @@ We got you covered, `TapCardSDK` can be installed with all possible technologies
 ## Node modules
 
 ```sh
-npm install card-sdk-react-native
+npm install card-react-native
 ```
 
 ```sh
-yarn install card-sdk-react-native
+yarn install card-react-native
 ```
 
 Then run in your terminal
+
 ```swift
 cd ios
 pod install
 pod update
 ```
-
 
 ## Documentation
 
@@ -70,27 +70,29 @@ Creates a configuration model to be passed to the SDK
 */
 ```
 
-|Configuration|Description | Required | Type| Sample
-|--|--|--| --|--|
-| publicKey| This is the `Tap Key` that you will get after registering you bundle id. | True  | `String`| `let publicKey = "key"` |
-| scope| Defines the intention of using the `TapCardSDK`. | True  | `Scope` enum| ` let scope:Scope = .Token //This means you will get a Tap token to use afterwards` OR ` let scope:Scope = .Authenticate //This means you will get an authenticated Tap token to use in our charge api right away`  |
-| merchant| This is the `Merchant id` that you will get after registering you bundle id. | True  | `Merchant`| ` let merchant: { id: ''}` |
-| purpose| Defines the intention of using the `Token` after generation. | True  | `String`| ` let purpose:String = "PAYMENT_TRANSACTION" //Using the token for a single charge.` OR ` let purpose:String = "RECURRING_TRANSACTION" //Using the token for multiple recurring charges.` OR ` let purpose:String = "INSTALLMENT_TRANSACTION" //Using the token for a charge that is a part of an installement plan.` OR ` let purpose:String = "ADD_CARD" //Using the token for a save a card for a customer.` OR ` let purpose:String = "CARDHOLDER_VERIFICATION" //Using the token for to verify the ownership of the card.` 
-| transaction| Needed to define the amount and the currency, if you are generating an authenticated token. | False  | `Transaction`| ` let transaction = { metadata: {}, reference: A reference to this transaciton in your system,` |
-| customer| The customer details you want to attach to this tokenization process. | True  | `Customer`| ` let customer = {nameOnCard: 'Tap Payments',editable: true,id: '',name: [  {    first: 'Tap',    lang: Locale.en,    middle: '',    last: 'Payments',  },],contact: {  phone: {    number: '88888888',    countryCode: '+965',  },  email: 'tappayments@tap.company'},` |
-| post| This is the `webhook` for your server, if you want us to update you server to server. | False  | `Post`| ` let post = {url:""}` |
-| acceptance| The acceptance details for the transaction. Including, which card brands and types you want to allow for the customer to tokenize. | False  | `Acceptance`| ` let acceptance = {supportedBrands: [  SupportedBrands.AMEX,  SupportedBrands.MASTERCARD,  SupportedBrands.VISA,  SupportedBrands.MADA,],supportedCards: [SupportedCards.Debit, SupportedCards.Credit]},` |
-| order| This is the `Tap order id` that you created before and want to attach this token to it if any. | False  | `Order`| ` let order = {id:"", amount: 1, currency: TapCurrencyCode.SAR, description: ''}` |
-| invoice| This is the `invoice id` that you want to link this token to if any. | False  | `Invoice`| ` let invoice:Invoice = {id:""}` |
-| fields| Needed to define visibility of the optional fields in the card form. | False  | `Fields`| ` let fields = {cardHolder: true}` |
-| addons| Needed to define the enabling of some extra features on top of the basic card form. | False  | `Addons`| ` let addons = { displayPaymentBrands: true, loader: true, saveCard: true }` `/**- displayPaymentBrands: Defines to show the supported card brands logos - loader: Defines to show a loader on top of the card when it is in a processing state - scanner: Defines whether to enable card scanning functionality or not*/`|
-| interface| Needed to defines look and feel related configurations. | False  | `Interface`| ` let interface = {locale: Locale.en,theme: Theme.dark,edges: Edges.curved,direction: Direction.ltr},` |
-| perator| Operator publicKey. | False  | `Operator`| ` let operator = {publicKey: "key"},` |
+| Configuration | Description                                                                                                                        | Required | Type          | Sample                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| publicKey     | This is the `Tap Key` that you will get after registering you bundle id.                                                           | True     | `String`      | `let publicKey = "key"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| scope         | Defines the intention of using the `TapCardSDK`.                                                                                   | True     | `Scope` enum  | ` let scope:Scope = .Token //This means you will get a Tap token to use afterwards` OR ` let scope:Scope = .Authenticate //This means you will get an authenticated Tap token to use in our charge api right away`                                                                                                                                                                                                                                                                                                              |
+| merchant      | This is the `Merchant id` that you will get after registering you bundle id.                                                       | True     | `Merchant`    | ` let merchant: { id: ''}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| purpose       | Defines the intention of using the `Token` after generation.                                                                       | True     | `String`      | ` let purpose:String = "PAYMENT_TRANSACTION" //Using the token for a single charge.` OR ` let purpose:String = "RECURRING_TRANSACTION" //Using the token for multiple recurring charges.` OR ` let purpose:String = "INSTALLMENT_TRANSACTION" //Using the token for a charge that is a part of an installement plan.` OR ` let purpose:String = "ADD_CARD" //Using the token for a save a card for a customer.` OR ` let purpose:String = "CARDHOLDER_VERIFICATION" //Using the token for to verify the ownership of the card.` |
+| transaction   | Needed to define the amount and the currency, if you are generating an authenticated token.                                        | False    | `Transaction` | ` let transaction = { metadata: {}, reference: A reference to this transaciton in your system,`                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| customer      | The customer details you want to attach to this tokenization process.                                                              | True     | `Customer`    | ` let customer = {nameOnCard: 'Tap Payments',editable: true,id: '',name: [  {    first: 'Tap',    lang: Locale.en,    middle: '',    last: 'Payments',  },],contact: {  phone: {    number: '88888888',    countryCode: '+965',  },  email: 'tappayments@tap.company'},`                                                                                                                                                                                                                                                        |
+| post          | This is the `webhook` for your server, if you want us to update you server to server.                                              | False    | `Post`        | ` let post = {url:""}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| acceptance    | The acceptance details for the transaction. Including, which card brands and types you want to allow for the customer to tokenize. | False    | `Acceptance`  | ` let acceptance = {supportedBrands: [  SupportedBrands.AMEX,  SupportedBrands.MASTERCARD,  SupportedBrands.VISA,  SupportedBrands.MADA,],supportedCards: [SupportedCards.Debit, SupportedCards.Credit]},`                                                                                                                                                                                                                                                                                                                      |
+| order         | This is the `Tap order id` that you created before and want to attach this token to it if any.                                     | False    | `Order`       | ` let order = {id:"", amount: 1, currency: TapCurrencyCode.SAR, description: ''}`                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| invoice       | This is the `invoice id` that you want to link this token to if any.                                                               | False    | `Invoice`     | ` let invoice:Invoice = {id:""}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| fields        | Needed to define visibility of the optional fields in the card form.                                                               | False    | `Fields`      | ` let fields = {cardHolder: true}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| addons        | Needed to define the enabling of some extra features on top of the basic card form.                                                | False    | `Addons`      | ` let addons = { displayPaymentBrands: true, loader: true, saveCard: true }` `/**- displayPaymentBrands: Defines to show the supported card brands logos - loader: Defines to show a loader on top of the card when it is in a processing state - scanner: Defines whether to enable card scanning functionality or not*/`                                                                                                                                                                                                      |
+| interface     | Needed to defines look and feel related configurations.                                                                            | False    | `Interface`   | ` let interface = {locale: Locale.en,theme: Theme.dark,edges: Edges.curved,direction: Direction.ltr},`                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| perator       | Operator publicKey.                                                                                                                | False    | `Operator`    | ` let operator = {publicKey: "key"},`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
 ## Initialisation of the input
 
 ### Initialise Config
+
 You can create a model from our defined structure to pass it afterwards to our `TapCardSDK` as a configuration.
+
 ```Ts
   const generateTransactionId = () => {
     let result = '';
@@ -187,6 +189,7 @@ var config: Config = {
     },
   }
 ```
+
 # Initializing the TapCardSDK form
 
 ```ts
@@ -201,27 +204,28 @@ import TapCardView, {
   Direction,
   Scope,
   type ITapCardViewInputRef,
-} from 'card-sdk-react-native';
+} from 'card-react-native';
 
-  const tapCardRef =
-    React.useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
+const tapCardRef =
+  React.useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
 
-  <TapCardView
-          ref={tapCardRef}
-          style={{ width: '100%' }}
-          config={config}
-          onSuccess={(tokenValue) => {}}
-          onHeightChange={(height) => {}}
-          onReady={() => {}}
-          onFocus={() => {}}
-          onBinIdentification={(binIdentification: Object) => {}}
-          onInvalidInput={(invalidInput: boolean) => {}}
-          onError={(error: object) => {}}
-        />
+<TapCardView
+  ref={tapCardRef}
+  style={{ width: '100%' }}
+  config={config}
+  onSuccess={(tokenValue) => {}}
+  onHeightChange={(height) => {}}
+  onReady={() => {}}
+  onFocus={() => {}}
+  onBinIdentification={(binIdentification: Object) => {}}
+  onInvalidInput={(invalidInput: boolean) => {}}
+  onError={(error: object) => {}}
+/>;
 ```
 
 # TapCardView Callbacks
-callbacks that allows integrators to get notified from events fired from the `TapCardView`. 
+
+callbacks that allows integrators to get notified from events fired from the `TapCardView`.
 
 ```Ts
 @objc public protocol TapCardViewDelegate {
@@ -292,6 +296,7 @@ callbacks that allows integrators to get notified from events fired from the `Ta
 
 }
 ```
+
 # Tokenize the card
 
 Once you get notified that the `TapCardView` now has a valid input from the callback. You can start the tokenization process by calling the public interface:

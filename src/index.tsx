@@ -22,7 +22,7 @@ import React, {
 export * from './models';
 
 const LINKING_ERROR =
-  `The package 'card-sdk-react-native' doesn't seem to be linked. Make sure: \n\n` +
+  `The package 'card-react-native' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
@@ -173,9 +173,9 @@ function TapCardView(
         style={{ ...style, flex: 1, height: height }}
         config={{
           ...config,
-          addons: {
-            ...config.addons,
-            nfc: Platform.OS === 'ios' ? false : config.addons.nfc,
+          features: {
+            ...config.features,
+            nfc: Platform.OS === 'ios' ? false : config.features.nfc,
           },
         }}
         ref={viewRef}

@@ -53,10 +53,9 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
-To edit the Objective-C or Swift files, open `example/ios/CardSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > card-sdk-react-native`.
+To edit the Objective-C or Swift files, open `example/ios/CardSdkReactNativeExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > card-react-native`.
 
-To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `card-sdk-react-native` under `Android`.
-
+To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `card-react-native` under `Android`.
 
 ### Commit message convention
 

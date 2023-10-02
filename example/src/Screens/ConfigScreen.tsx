@@ -27,7 +27,7 @@ import {
   SupportedCards,
   TapCurrencyCode,
   Theme,
-} from 'card-sdk-react-native';
+} from 'card-react-native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ConfigScreen'>;
 
@@ -66,27 +66,23 @@ function ConfigScreen({ route, navigation }: Props) {
     setValue('customerCountryCode', config.customer.contact.phone.number);
     setValue('customerPhone', config.customer.contact.phone.countryCode);
     setValue('editable', config.customer.editable);
-    setSupportedCards(config.acceptance.supportedCards);
-    setCardBrands(config.acceptance.supportedBrands);
-    setValue('saveCard', config.addons.saveCard);
+    setSupportedCards(config.acceptance.supportedFundSource);
+    setCardBrands(config.acceptance.supportedSchemes);
+    setValue('saveCard', config.features.customerCards.saveCard);
     setValue('loader', config.addons.loader);
-    setValue('scanner', config.addons.scanner);
-    setValue('nfc', config.addons.nfc);
-    setValue('displayPaymentBrands', config.addons.displayPaymentBrands);
-    setValue('cardHolder', config.fields.cardHolder);
+    setValue('scanner', config.features.scanner);
+    setValue('nfc', config.features.nfc);
+    setValue('cardHolder', config.fields.card.cardHolder);
+    setValue('cvv', config.fields.card.cvv);
     setValue('edges', config.interface.edges);
     setValue('scope', config.scope);
-    setValue('direction', config.interface.direction);
+    setValue('direction', config.interface.cardDirection);
     setValue('theme', config.interface.theme);
     setValue('locale', config.interface.locale);
   }, [
-    config.acceptance.supportedBrands,
-    config.acceptance.supportedCards,
-    config.addons.displayPaymentBrands,
+    config.acceptance.supportedFundSource,
+    config.acceptance.supportedSchemes,
     config.addons.loader,
-    config.addons.nfc,
-    config.addons.saveCard,
-    config.addons.scanner,
     config.customer.contact.email,
     config.customer.contact.phone.countryCode,
     config.customer.contact.phone.number,
@@ -94,8 +90,12 @@ function ConfigScreen({ route, navigation }: Props) {
     config.customer.id,
     config.customer.name,
     config.customer.nameOnCard,
-    config.fields.cardHolder,
-    config.interface.direction,
+    config.features.customerCards.saveCard,
+    config.features.nfc,
+    config.features.scanner,
+    config.fields.card.cardHolder,
+    config.fields.card.cvv,
+    config.interface.cardDirection,
     config.interface.edges,
     config.interface.locale,
     config.interface.theme,
@@ -143,22 +143,30 @@ function ConfigScreen({ route, navigation }: Props) {
         },
       },
       acceptance: {
-        supportedCards: supportedCards,
-        supportedBrands: cardBrands,
+        supportedFundSource: supportedCards,
+        supportedSchemes: cardBrands,
+        supportedPaymentAuthentications: ['3DS'],
       },
       addons: {
-        saveCard: data.saveCard,
         loader: data.loader,
-        displayPaymentBrands: data.displayPaymentBrands,
+      },
+      features: {
+        customerCards: {
+          saveCard: data.saveCard,
+          autoSaveCard: data.autoSaveCard,
+        },
         scanner: data.scanner,
+        acceptanceBadge: data.acceptanceBadge,
         nfc: data.nfc,
       },
       fields: {
-        cardHolder: data.cardHolder,
+        card: { cardHolder: data.cardHolder, cvv: data.cvv },
       },
       scope: data.scope,
       interface: {
-        direction: data.direction,
+        colorStyle: 'monochrome',
+        powered: data.powered,
+        cardDirection: data.direction,
         theme: data.theme,
         locale: data.locale,
         edges: data.edges,
@@ -614,12 +622,63 @@ function ConfigScreen({ route, navigation }: Props) {
                     }}
                   />
 
+                  <Text style={{ marginVertical: 10 }}>{'cvv'}</Text>
+                  <Controller
+                    control={control}
+                    name="cvv"
+                    defaultValue={false}
+                    render={({ field: { onChange, value } }) => {
+                      return (
+                        <Switch
+                          value={value}
+                          onValueChange={(val: boolean) => {
+                            onChange(val);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+
+                  <Text style={{ marginVertical: 10 }}>{'powered'}</Text>
+                  <Controller
+                    control={control}
+                    name="powered"
+                    defaultValue={false}
+                    render={({ field: { onChange, value } }) => {
+                      return (
+                        <Switch
+                          value={value}
+                          onValueChange={(val: boolean) => {
+                            onChange(val);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+
                   <Text style={{ marginVertical: 10 }}>
-                    {'Display Payment Brands'}
+                    {'Acceptance Badge'}
                   </Text>
                   <Controller
                     control={control}
-                    name="displayPaymentBrands"
+                    name="acceptanceBadge"
+                    defaultValue={false}
+                    render={({ field: { onChange, value } }) => {
+                      return (
+                        <Switch
+                          value={value}
+                          onValueChange={(val: boolean) => {
+                            onChange(val);
+                          }}
+                        />
+                      );
+                    }}
+                  />
+
+                  <Text style={{ marginVertical: 10 }}>{'Auto save card'}</Text>
+                  <Controller
+                    control={control}
+                    name="autoSaveCard"
                     defaultValue={false}
                     render={({ field: { onChange, value } }) => {
                       return (

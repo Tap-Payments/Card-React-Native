@@ -1,5 +1,5 @@
 {
-  "name": "card-sdk-react-native",
+  "name": "card-react-native",
   "version": "0.0.6",
   "description": "Tap Card SDK Wrapper",
   "main": "lib/commonjs/index",
@@ -43,13 +43,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Tap-Payments/Card-SDK-React-Native",
+  "repository": "https://github.com/Tap-Payments/Card-React-Native",
   "author": "mahmoudAllam <m.allam@tap.company> (https://github.com/mAllamTapPayments)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Tap-Payments/Card-SDK-React-Native/issues"
+    "url": "https://github.com/Tap-Payments/Card-React-Native/issues"
   },
-  "homepage": "https://github.com/Tap-Payments/Card-SDK-React-Native#readme",
+  "homepage": "https://github.com/Tap-Payments/Card-React-Native#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
