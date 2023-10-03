@@ -1,8 +1,8 @@
 # card-react-native
 
-Tap Card SDK Wrapper
+Tap Card React-Native Wrapper
 
-#Card-SDK
+#Card-React-Native
 
 We at [Tap Payments](https://www.tap.company/) strive to make your payments easier than ever. We as a PCI compliant company, provide you a from the self solution to process card payments in your iOS apps.
 
