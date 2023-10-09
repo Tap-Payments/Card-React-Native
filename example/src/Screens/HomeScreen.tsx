@@ -85,7 +85,7 @@ function HomeScreen({ navigation }: Props) {
         SupportedPaymentAuthentications.secured,
       ],
     },
-    fieldsVisibility: {
+    fieldVisibility: {
       card: { cardHolder: true, cvv: true },
     },
     interface: {

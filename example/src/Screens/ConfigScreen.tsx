@@ -91,8 +91,8 @@ function ConfigScreen({ route, navigation }: Props) {
     setValue('orderId', config.order.id);
     setValue('orderReference', config.order.reference);
     setValue('currency', config.order.currency);
-    setValue('cardHolder', config.fieldsVisibility?.card.cardHolder ?? false);
-    setValue('cvv', config.fieldsVisibility?.card.cvv ?? false);
+    setValue('cardHolder', config.fieldVisibility?.card.cardHolder ?? false);
+    setValue('cvv', config.fieldVisibility?.card.cvv ?? false);
     setValue('saveCard', config.features?.customerCards.saveCard ?? false);
     setValue(
       'autoSaveCard',
@@ -137,8 +137,8 @@ function ConfigScreen({ route, navigation }: Props) {
     config.features?.alternativeCardInputs.cardScanner,
     config.features?.customerCards.autoSaveCard,
     config.features?.customerCards.saveCard,
-    config.fieldsVisibility?.card.cardHolder,
-    config.fieldsVisibility?.card.cvv,
+    config.fieldVisibility?.card.cardHolder,
+    config.fieldVisibility?.card.cvv,
     config.interface?.cardDirection,
     config.interface?.colorStyle,
     config.interface?.edges,
@@ -213,7 +213,7 @@ function ConfigScreen({ route, navigation }: Props) {
         },
         acceptanceBadge: data.acceptanceBadge,
       },
-      fieldsVisibility: {
+      fieldVisibility: {
         card: { cardHolder: data.cardHolder, cvv: data.cvv },
       },
       scope: data.scope,

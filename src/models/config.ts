@@ -111,7 +111,7 @@ export type Config = {
   post?: Post;
   operator: { publicKey: string };
   purpose?: Purpose;
-  fieldsVisibility?: Fields;
+  fieldVisibility?: Fields;
   acceptance?: Acceptance;
   interface?: InterfaceConfig;
   scope: Scope;
