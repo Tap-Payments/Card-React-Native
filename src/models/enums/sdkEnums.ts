@@ -19,7 +19,9 @@ export enum SupportedSchemes {
 
 export enum Scope {
   Token = 'Token',
-  Authenticate = 'Authenticate',
+  AuthenticatedToken = 'AuthenticatedToken',
+  SaveToken = 'SaveToken',
+  SaveAuthenticatedToken = 'SaveAuthenticatedToken',
 }
 
 export enum SdkMode {

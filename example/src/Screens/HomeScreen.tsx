@@ -49,7 +49,7 @@ function HomeScreen({ navigation }: Props) {
     operator: {
       publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     },
-    scope: Scope.Authenticate,
+    scope: Scope.AuthenticatedToken,
     customer: {
       nameOnCard: 'Tap Payments',
       editable: true,
@@ -142,7 +142,7 @@ function HomeScreen({ navigation }: Props) {
             );
           }}
           ref={testRef}
-          style={{ width: '100%' }}
+          style={{ width: '95%' }}
           config={config}
           onHeightChange={() => {}}
           onReady={() => {
@@ -202,10 +202,10 @@ function HomeScreen({ navigation }: Props) {
             });
           }}
         >
-          <Text>Config SDK</Text>
+          <Text style={{ color: 'black' }}>Config SDK</Text>
         </TouchableOpacity>
         <ScrollView>
-          <Text>{response}</Text>
+          <Text style={{ color: 'black' }}>{response}</Text>
         </ScrollView>
       </View>
     </SafeAreaView>
