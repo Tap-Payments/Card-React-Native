@@ -1,0 +1,53 @@
+diff --git a/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx b/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx
+index a3bba1d..36fa803 100644
+--- a/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx
++++ b/node_modules/react-native-dropdown-select-list/components/MultipleSelectList.tsx
+@@ -12,8 +12,8 @@ import {
+     Pressable,
+     Keyboard
+ } from 'react-native';
++import {MultipleSelectListProps} from "..";
+ 
+-import { MultipleSelectListProps } from '..';
+ 
+ type L1Keys = { key?: any; value?: any; disabled?: boolean | undefined }
+ 
+@@ -28,6 +28,7 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+         dropdownTextStyles,
+         maxHeight,
+         data,
++        defaultOptions,
+         searchicon = false,
+         arrowicon = false,
+         closeicon = false,
+@@ -96,6 +97,13 @@ const MultipleSelectList: React.FC<MultipleSelectListProps> = ({
+ 
+     },[selectedval])
+ 
++    React.useEffect(() => {
++        if(defaultOptions && _firstRender){
++            setSelected(defaultOptions);
++            setSelectedVal(defaultOptions);
++        }
++    })
++
+     React.useEffect(() => {
+         if(!_firstRender){
+             if(dropdownShown)
+diff --git a/node_modules/react-native-dropdown-select-list/index.d.ts b/node_modules/react-native-dropdown-select-list/index.d.ts
+index cee3ba0..92318e8 100644
+--- a/node_modules/react-native-dropdown-select-list/index.d.ts
++++ b/node_modules/react-native-dropdown-select-list/index.d.ts
+@@ -162,9 +162,9 @@ export interface MultipleSelectListProps  {
+     data: Array<{}>,
+ 
+     /**
+-    * The default option of the select list
+-    */
+-    defaultOption?: { key: any, value: any },
++     * The default option of the multi select list
++     */
++    defaultOptions?: Array<{}>,
+ 
+     /**
+     * Pass any JSX to this prop like Text, Image or Icon to show instead of search icon

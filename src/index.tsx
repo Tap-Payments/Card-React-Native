@@ -17,6 +17,7 @@ import React, {
   useCallback,
   type MutableRefObject,
   useState,
+  useMemo,
 } from 'react';
 
 export * from './models';
@@ -161,6 +162,29 @@ function TapCardView(
     onError(data);
   };
 
+  const iosConfig = useMemo(() => {
+    if (config?.features?.alternativeCardInputs.cardNFC !== undefined) {
+      return {
+        ...config,
+        features: {
+          ...config.features,
+          alternativeCardInputs: {
+            ...(config.features.alternativeCardInputs ?? {
+              cardNFC: false,
+              cardScanner: false,
+            }),
+            cardNFC:
+              Platform.OS === 'ios'
+                ? false
+                : config.features.alternativeCardInputs.cardNFC ?? false,
+          },
+        },
+      };
+    } else {
+      return { ...config };
+    }
+  }, [config]);
+
   return (
     <View
       style={{
@@ -171,13 +195,7 @@ function TapCardView(
     >
       <CardSdkReactNativeView
         style={{ ...style, flex: 1, height: height }}
-        config={{
-          ...config,
-          features: {
-            ...config.features,
-            nfc: Platform.OS === 'ios' ? false : config.features.nfc,
-          },
-        }}
+        config={iosConfig}
         ref={viewRef}
         onSuccess={handleOnSuccess}
         onReadyCallback={handleOnReady}

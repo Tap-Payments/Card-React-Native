@@ -1,12 +1,15 @@
 import type {
+  ColorStyle,
   Direction,
   Edges,
   Locale,
   Scope,
-  SupportedBrands,
-  SupportedCards,
+  SupportedSchemes,
+  SupportedFundSource,
+  SupportedPaymentAuthentications,
   TapCurrencyCode,
   Theme,
+  Purpose,
 } from './enums';
 
 export type Merchant = { id: String };
@@ -19,7 +22,6 @@ export type Contract = {
 };
 export type Transaction = {
   metadata: Object;
-  reference: String;
   paymentAgreement: PaymentAgreement;
 };
 
@@ -31,17 +33,18 @@ export type InterfaceConfig = {
   locale: Locale;
   theme: Theme;
   edges: Edges;
+  loader: boolean;
   cardDirection: Direction;
-  colorStyle: 'monochrome' | 'colored';
-  powered: true;
+  colorStyle: ColorStyle;
+  powered: boolean;
 };
 export type Addons = {
   loader: boolean;
 };
 export type Acceptance = {
-  supportedSchemes: SupportedBrands[];
-  supportedFundSource: SupportedCards[];
-  supportedPaymentAuthentications: ['3DS'] | [];
+  supportedSchemes: SupportedSchemes[];
+  supportedFundSource: SupportedFundSource[];
+  supportedPaymentAuthentications: SupportedPaymentAuthentications[] | [];
 };
 export type Contact = {
   email: String;
@@ -54,11 +57,11 @@ export type Name = {
   middle: String;
 };
 export type Customer = {
-  id: String;
-  name: Name[];
-  nameOnCard: String;
-  editable: boolean;
-  contact: Contact;
+  id?: String;
+  name?: Name[];
+  nameOnCard?: String;
+  editable?: boolean;
+  contact?: Contact;
 };
 export type AuthenticationTransactionInvoice = {
   id: string;
@@ -74,10 +77,12 @@ export type AuthenticationTransaction = {
 };
 
 export type Order = {
-  id: String;
-  amount: number;
-  currency: TapCurrencyCode;
-  description: String;
+  id?: String;
+  amount?: number;
+  currency?: TapCurrencyCode;
+  description?: String;
+  reference?: String;
+  metadata?: Object;
 };
 
 export type Invoice = {
@@ -87,38 +92,29 @@ export type Invoice = {
 export type Post = {
   url: String;
 };
-export type Redirect = {
-  url: String;
-};
+
 export type Features = {
-  scanner: boolean;
+  alternativeCardInputs: {
+    cardNFC: boolean;
+    cardScanner: boolean;
+  };
   acceptanceBadge: boolean;
-  nfc: boolean;
   customerCards: {
     saveCard: boolean;
     autoSaveCard: boolean;
   };
 };
 export type Config = {
-  publicKey: String;
-  merchant: Merchant;
-  transaction: Transaction;
+  merchant?: Merchant;
   order: Order;
-  invoice: Invoice;
-  post: Post;
-  operator: { publicKey: String };
-  purpose:
-    | 'PAYMENT_TRANSACTION'
-    | 'RECURRING_TRANSACTION'
-    | 'INSTALLMENT_TRANSACTION'
-    | 'ADD_CARD'
-    | 'CARDHOLDER_VERIFICATION';
-  fields: Fields;
-  acceptance: Acceptance;
-  addons: Addons;
-  interface: InterfaceConfig;
+  invoice?: Invoice;
+  post?: Post;
+  operator: { publicKey: string };
+  purpose?: Purpose;
+  fieldsVisibility?: Fields;
+  acceptance?: Acceptance;
+  interface?: InterfaceConfig;
   scope: Scope;
   customer: Customer;
-  redirect: Redirect;
-  features: Features;
+  features?: Features;
 };

@@ -12,63 +12,32 @@ import TapCardView, {
   TapCurrencyCode,
   type Config,
   Locale,
-  SupportedBrands,
-  SupportedCards,
+  SupportedSchemes,
+  SupportedFundSource,
   Theme,
   Edges,
   Direction,
   Scope,
   type ITapCardViewInputRef,
+  SupportedPaymentAuthentications,
+  ColorStyle,
+  Purpose,
 } from 'card-react-native';
 import { useState, type MutableRefObject } from 'react';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>;
 
 function HomeScreen({ navigation }: Props) {
-  const generateTransactionId = () => {
-    let result = '';
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 23) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-  };
-
-  // const generateOrderId = () => {
-  //   let result = '';
-  //   const characters = '0123456789';
-  //   const charactersLength = characters.length;
-  //   let counter = 0;
-  //   while (counter < 17) {
-  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //     counter += 1;
-  //   }
-  //   return result;
-  // };
-
   const [config, setConfigState] = useState<Config>({
-    publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     merchant: {
       id: '',
     },
-    transaction: {
-      metadata: {},
-      reference: `tck_LV${generateTransactionId()}`,
-      paymentAgreement: {
-        id: '',
-        contract: {
-          id: '',
-        },
-      },
-    },
     order: {
+      reference: '',
       amount: 1,
       currency: TapCurrencyCode.SAR,
       description: '',
       id: '',
+      metadata: {},
     },
     invoice: {
       id: 'Map to authenticate.reference.invoice',
@@ -76,7 +45,7 @@ function HomeScreen({ navigation }: Props) {
     post: {
       url: 'Map to authenticate.reference.post',
     },
-    purpose: 'PAYMENT_TRANSACTION',
+    purpose: Purpose.BillingTransaction,
     operator: {
       publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     },
@@ -103,39 +72,41 @@ function HomeScreen({ navigation }: Props) {
     },
     acceptance: {
       supportedSchemes: [
-        SupportedBrands.AMEX,
-        SupportedBrands.MASTERCARD,
-        SupportedBrands.VISA,
-        SupportedBrands.MADA,
+        SupportedSchemes.AMEX,
+        SupportedSchemes.MASTERCARD,
+        SupportedSchemes.VISA,
+        SupportedSchemes.MADA,
       ],
-      supportedFundSource: [SupportedCards.Debit, SupportedCards.Credit],
-      supportedPaymentAuthentications: ['3DS'],
+      supportedFundSource: [
+        SupportedFundSource.Debit,
+        SupportedFundSource.Credit,
+      ],
+      supportedPaymentAuthentications: [
+        SupportedPaymentAuthentications.secured,
+      ],
     },
-    fields: {
+    fieldsVisibility: {
       card: { cardHolder: true, cvv: true },
     },
-    addons: {
-      loader: true,
-    },
     interface: {
+      loader: true,
       locale: Locale.en,
       theme: Theme.dark,
       edges: Edges.curved,
       cardDirection: Direction.ltr,
-      colorStyle: 'monochrome',
+      colorStyle: ColorStyle.colored,
       powered: true,
     },
-    redirect: {
-      url: '',
-    },
     features: {
+      alternativeCardInputs: {
+        cardNFC: true,
+        cardScanner: true,
+      },
       customerCards: {
         saveCard: true,
         autoSaveCard: true,
       },
-      scanner: true,
       acceptanceBadge: true,
-      nfc: false,
     },
   });
 
@@ -144,6 +115,11 @@ function HomeScreen({ navigation }: Props) {
 
   const testRef =
     React.useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
+
+  React.useEffect(() => {
+    setResponse('');
+    setResponse(`config${JSON.stringify(config, null, 2)}`);
+  }, [config]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -171,11 +147,7 @@ function HomeScreen({ navigation }: Props) {
           onHeightChange={() => {}}
           onReady={() => {
             setResponse(
-              `config${JSON.stringify(
-                config,
-                null,
-                2
-              )}${response} \n =====onReady==== \n onReady \n =====onReady===== \n`
+              `${response} \n =====onReady==== \n onReady \n =====onReady===== \n`
             );
           }}
           onFocus={() => {

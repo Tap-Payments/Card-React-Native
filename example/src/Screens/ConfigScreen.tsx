@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -8,8 +8,12 @@ import {
   SafeAreaView,
   Switch,
   ScrollView,
+  type KeyboardTypeOptions,
 } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import {
+  MultipleSelectList,
+  SelectList,
+} from 'react-native-dropdown-select-list';
 import {
   useForm,
   Controller,
@@ -19,31 +23,29 @@ import {
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from './Screens.types';
 import {
+  ColorStyle,
   Direction,
   Edges,
   Locale,
   Scope,
-  SupportedBrands,
-  SupportedCards,
+  SupportedSchemes,
+  SupportedFundSource,
+  SupportedPaymentAuthentications,
   TapCurrencyCode,
   Theme,
+  Purpose,
 } from 'card-react-native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ConfigScreen'>;
 
 function ConfigScreen({ route, navigation }: Props) {
   const { config, setConfig } = route.params;
-  const [currencyListOpen, setCurrencyListOpen] = useState(false);
-  const [modeListOpen, setModeListOpen] = useState(false);
-  const [supportedBrandListOpen, setSupportedBrandListOpen] = useState(false);
-  const [supportedCardListOpen, setSupportedCardListOpen] = useState(false);
-
-  const [localListOpen, setLocalListOpen] = useState(false);
-  const [themeListOpen, setThemeListOpen] = useState(false);
-  const [edgesListOpen, setEdgesListOpen] = useState(false);
-  const [directionListOpen, setDirectionListOpen] = useState(false);
-  const [supportedCards, setSupportedCards] = useState<SupportedCards[]>([]);
-  const [cardBrands, setCardBrands] = useState<SupportedBrands[]>([]);
+  const [supportedCards, setSupportedFundSource] = useState<
+    SupportedFundSource[]
+  >(config.acceptance?.supportedFundSource ?? []);
+  const [cardBrands, setCardBrands] = useState<SupportedSchemes[]>(
+    config.acceptance?.supportedSchemes ?? []
+  );
 
   const {
     control,
@@ -53,85 +55,136 @@ function ConfigScreen({ route, navigation }: Props) {
   } = useForm();
 
   useEffect(() => {
-    setValue('key', config.publicKey);
-    setValue('merchantId', config.merchant.id);
-    setValue('amount', config.order.amount.toString());
-    setValue('currency', config.order.currency);
-    setValue('customerId', config.customer.id);
+    setValue('key', config.operator.publicKey);
     setValue('nameOnCard', config.customer.nameOnCard);
-    setValue('firstName', config.customer.name[0]?.first);
-    setValue('lastName', config.customer.name[0]?.last);
-    setValue('middleName', config.customer.name[0]?.middle);
-    setValue('customerEmail', config.customer.contact.email);
-    setValue('customerCountryCode', config.customer.contact.phone.number);
-    setValue('customerPhone', config.customer.contact.phone.countryCode);
     setValue('editable', config.customer.editable);
-    setSupportedCards(config.acceptance.supportedFundSource);
-    setCardBrands(config.acceptance.supportedSchemes);
-    setValue('saveCard', config.features.customerCards.saveCard);
-    setValue('loader', config.addons.loader);
-    setValue('scanner', config.features.scanner);
-    setValue('nfc', config.features.nfc);
-    setValue('cardHolder', config.fields.card.cardHolder);
-    setValue('cvv', config.fields.card.cvv);
-    setValue('edges', config.interface.edges);
+    setValue('customerId', config.customer.id);
+    setValue(
+      'firstName',
+      config.customer.name !== undefined
+        ? config.customer.name[0]?.first ?? ''
+        : ''
+    );
+    setValue(
+      'lastName',
+      config.customer.name !== undefined ? config.customer.name[0]?.last : ''
+    );
+    setValue(
+      'middleName',
+      config.customer.name !== undefined ? config.customer.name[0]?.middle : ''
+    );
+    setValue(
+      'customerLocale',
+      config.customer.name !== undefined ? config.customer.name[0]?.lang : ''
+    );
+    setValue('customerEmail', config.customer.contact?.email ?? '');
+    setValue(
+      'customerCountryCode',
+      config.customer.contact?.phone.number ?? ''
+    );
+    setValue('customerPhone', config.customer.contact?.phone.countryCode ?? '');
+    setValue('merchantId', config.merchant?.id ?? '');
+    setValue('invoice', config.invoice?.id);
+    setValue('post', config.post?.url);
+    setValue('amount', config.order.amount?.toString() ?? '1');
+    setValue('orderDescription', config.order.description);
+    setValue('orderId', config.order.id);
+    setValue('orderReference', config.order.reference);
+    setValue('currency', config.order.currency);
+    setValue('cardHolder', config.fieldsVisibility?.card.cardHolder ?? false);
+    setValue('cvv', config.fieldsVisibility?.card.cvv ?? false);
+    setValue('saveCard', config.features?.customerCards.saveCard ?? false);
+    setValue(
+      'autoSaveCard',
+      config.features?.customerCards.autoSaveCard ?? false
+    );
+    setValue(
+      'cardScanner',
+      config.features?.alternativeCardInputs.cardScanner ?? false
+    );
+    setValue(
+      'cardNFC',
+      config.features?.alternativeCardInputs.cardNFC ?? false
+    );
+    setValue('acceptanceBadge', config.features?.acceptanceBadge ?? false);
+    setValue('edges', config.interface?.edges);
     setValue('scope', config.scope);
-    setValue('direction', config.interface.cardDirection);
-    setValue('theme', config.interface.theme);
-    setValue('locale', config.interface.locale);
+    setValue('direction', config.interface?.cardDirection);
+    setValue('theme', config.interface?.theme);
+    setValue('colorStyle', config.interface?.colorStyle);
+    setValue('loader', config.interface?.loader ?? false);
+    setValue('powered', config.interface?.powered ?? false);
+    setValue('locale', config.interface?.locale ?? Locale.en);
+    setValue(
+      'supportedPaymentAuthentications',
+      config.acceptance?.supportedPaymentAuthentications !== undefined &&
+        config.acceptance?.supportedPaymentAuthentications.length > 0
+        ? true
+        : false
+    );
+    setValue('purpose', config.purpose ?? '');
   }, [
-    config.acceptance.supportedFundSource,
-    config.acceptance.supportedSchemes,
-    config.addons.loader,
-    config.customer.contact.email,
-    config.customer.contact.phone.countryCode,
-    config.customer.contact.phone.number,
+    config.acceptance?.supportedPaymentAuthentications,
+    config.customer.contact?.email,
+    config.customer.contact?.phone.countryCode,
+    config.customer.contact?.phone.number,
     config.customer.editable,
     config.customer.id,
     config.customer.name,
     config.customer.nameOnCard,
-    config.features.customerCards.saveCard,
-    config.features.nfc,
-    config.features.scanner,
-    config.fields.card.cardHolder,
-    config.fields.card.cvv,
-    config.interface.cardDirection,
-    config.interface.edges,
-    config.interface.locale,
-    config.interface.theme,
-    config.merchant.id,
+    config.features?.acceptanceBadge,
+    config.features?.alternativeCardInputs.cardNFC,
+    config.features?.alternativeCardInputs.cardScanner,
+    config.features?.customerCards.autoSaveCard,
+    config.features?.customerCards.saveCard,
+    config.fieldsVisibility?.card.cardHolder,
+    config.fieldsVisibility?.card.cvv,
+    config.interface?.cardDirection,
+    config.interface?.colorStyle,
+    config.interface?.edges,
+    config.interface?.loader,
+    config.interface?.locale,
+    config.interface?.powered,
+    config.interface?.theme,
+    config.invoice?.id,
+    config.merchant?.id,
     config.operator.publicKey,
     config.order.amount,
     config.order.currency,
-    config.publicKey,
+    config.order.description,
+    config.order.id,
+    config.order.reference,
+    config.post?.url,
+    config.purpose,
     config.scope,
     setValue,
   ]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setConfig({
-      ...config,
-      publicKey: data.key,
+      purpose: data.purpose,
+      post: { url: data.post },
+      invoice: { id: data.invoice },
       operator: { publicKey: data.key },
       merchant: { id: data.merchantId },
       order: {
         ...config.order,
         amount: data.amount,
+        description: data.orderDescription,
+        id: data.orderId,
+        reference: data.orderReference,
         currency: data.currency,
-      },
-      transaction: {
-        ...config.transaction,
       },
       customer: {
         editable: data.editable,
-        nameOnCard: data.nameOnCard ?? data.firstName,
+        nameOnCard: data.nameOnCard,
         id: data.customerId,
         name: [
           {
             first: data.firstName,
             last: data.lastName,
             middle: data.middleName,
-            lang: Locale.en,
+            lang: data.customerLocale,
           },
         ],
         contact: {
@@ -145,26 +198,28 @@ function ConfigScreen({ route, navigation }: Props) {
       acceptance: {
         supportedFundSource: supportedCards,
         supportedSchemes: cardBrands,
-        supportedPaymentAuthentications: ['3DS'],
-      },
-      addons: {
-        loader: data.loader,
+        supportedPaymentAuthentications: data.supportedPaymentAuthentications
+          ? [SupportedPaymentAuthentications.secured]
+          : [],
       },
       features: {
         customerCards: {
           saveCard: data.saveCard,
           autoSaveCard: data.autoSaveCard,
         },
-        scanner: data.scanner,
+        alternativeCardInputs: {
+          cardScanner: data.cardScanner,
+          cardNFC: data.cardNFC,
+        },
         acceptanceBadge: data.acceptanceBadge,
-        nfc: data.nfc,
       },
-      fields: {
+      fieldsVisibility: {
         card: { cardHolder: data.cardHolder, cvv: data.cvv },
       },
       scope: data.scope,
       interface: {
-        colorStyle: 'monochrome',
+        loader: data.loader,
+        colorStyle: data.colorStyle,
         powered: data.powered,
         cardDirection: data.direction,
         theme: data.theme,
@@ -175,694 +230,343 @@ function ConfigScreen({ route, navigation }: Props) {
     navigation.pop();
   };
 
+  const renderTextInput = useCallback(
+    (
+      name: string,
+      title: string,
+      isRequired: boolean,
+      keyboardType?: KeyboardTypeOptions
+    ) => {
+      return (
+        <View>
+          <Text>{title}</Text>
+          <Controller
+            control={control}
+            name={name}
+            render={({ field: { onChange, value } }) => (
+              <View style={styles.textBox}>
+                <TextInput
+                  keyboardType={keyboardType ?? 'default'}
+                  style={styles.text}
+                  placeholder={title}
+                  defaultValue={value}
+                  onChangeText={(v) => onChange(v)}
+                />
+              </View>
+            )}
+            rules={{
+              required: {
+                value: isRequired,
+                message: 'Please fill out all required fields.',
+              },
+            }}
+          />
+          {errors[name]?.message ? (
+            <Text style={styles.errorText}>{`${errors[name]?.message}`}</Text>
+          ) : null}
+        </View>
+      );
+    },
+    [control, errors]
+  );
+
+  const renderSwitch = useCallback(
+    (name: string, title: string) => {
+      return (
+        <View>
+          <Text style={{ marginVertical: 10 }}>{title}</Text>
+          <Controller
+            control={control}
+            name={name}
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <Switch
+                  value={value}
+                  onValueChange={(val: boolean) => {
+                    onChange(val);
+                  }}
+                />
+              );
+            }}
+          />
+        </View>
+      );
+    },
+    [control]
+  );
+
+  const renderMultipleList = useCallback(
+    ({
+      name,
+      title,
+      items,
+      setListValue,
+      isRequired,
+      defaultOptions,
+      values,
+    }: {
+      name: string;
+      title: string;
+      items: {
+        key: string;
+        value: string;
+      }[];
+      setListValue: (val: any) => void;
+      isRequired: boolean;
+      defaultOptions: {}[] | undefined;
+      values: string[];
+    }) => {
+      return (
+        <View>
+          <Controller
+            rules={{
+              required: {
+                value: isRequired,
+                message: 'Please fill out all required fields.',
+              },
+            }}
+            control={control}
+            name={name}
+            defaultValue={false}
+            render={({ field: { onChange } }) => {
+              return (
+                <MultipleSelectList
+                  setSelected={(val: any) => {
+                    setListValue(val);
+                  }}
+                  data={items}
+                  save="value"
+                  onSelect={() => {
+                    onChange(values);
+                  }}
+                  label={title}
+                  defaultOptions={defaultOptions}
+                />
+              );
+            }}
+          />
+          {errors[name]?.message ? (
+            <Text style={styles.errorText}>{`${errors[name]?.message}`}</Text>
+          ) : null}
+        </View>
+      );
+    },
+    [control, errors]
+  );
+
+  const renderList = useCallback(
+    ({
+      name,
+      items,
+      isRequired,
+      defaultOption,
+      title,
+    }: {
+      name: string;
+      title: string;
+      items: {
+        key: string;
+        value: string;
+      }[];
+      isRequired: boolean;
+      defaultOption: string;
+    }) => {
+      return (
+        <View>
+          <Text style={{ marginVertical: 10 }}>{title}</Text>
+          <Controller
+            rules={{
+              required: {
+                value: isRequired,
+                message: 'Please fill out all required fields.',
+              },
+            }}
+            control={control}
+            name={name}
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <SelectList
+                  setSelected={(val: any) => {
+                    onChange(val);
+                  }}
+                  data={items}
+                  save="value"
+                  onSelect={() => {
+                    onChange(value);
+                  }}
+                  defaultOption={{ key: defaultOption, value: defaultOption }}
+                />
+              );
+            }}
+          />
+          {errors[name]?.message ? (
+            <Text style={styles.errorText}>{`${errors[name]?.message}`}</Text>
+          ) : null}
+        </View>
+      );
+    },
+    [control, errors]
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={[styles.container]}>
         <View style={styles.container}>
-          <Text>{'public key'}</Text>
-          <Controller
-            control={control}
-            name="key"
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.textBox}>
-                <TextInput
-                  style={styles.text}
-                  placeholder="public key"
-                  defaultValue={value}
-                  onChangeText={(v) => onChange(v)}
-                />
-              </View>
-            )}
-            rules={{
-              required: {
-                value: true,
-                message: 'Please fill out all required fields.',
-              },
-            }}
-          />
+          {renderTextInput('key', 'publicKey', true)}
+          {renderTextInput('amount', 'Amount', true, 'numeric')}
+          {renderList({
+            name: 'currency',
+            title: 'Currency',
+            items: Object.values(TapCurrencyCode).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.order.currency as string,
+          })}
+          {renderList({
+            name: 'scope',
+            title: 'Scope',
+            items: Object.values(Scope).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.scope as string,
+          })}
+          <View style={{ height: 10 }}></View>
+          {renderMultipleList({
+            name: 'brands',
+            title: 'Supported Schemes',
+            items: Object.values(SupportedSchemes).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            setListValue: setCardBrands,
+            isRequired: true,
+            values: cardBrands,
+            defaultOptions: cardBrands,
+          })}
+          {renderMultipleList({
+            name: 'supportedCards',
+            title: 'Supported Fund Source',
+            items: Object.values(SupportedFundSource).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            setListValue: setSupportedFundSource,
+            isRequired: true,
+            values: supportedCards,
+            defaultOptions: supportedCards,
+          })}
+          {renderSwitch('supportedPaymentAuthentications', '3DS')}
 
-          {errors.key?.message ? (
-            <Text style={styles.errorText}>{`${errors.key?.message}`}</Text>
-          ) : null}
-          <Text>{'Scope'}</Text>
-          <Controller
-            control={control}
-            name="scope"
-            render={({ field: { onChange, value } }) => {
-              return (
-                <DropDownPicker
-                  style={styles.dropdown}
-                  placeholder="Select your mode"
-                  placeholderStyle={styles.dropdownPlaceholder}
-                  open={modeListOpen}
-                  setOpen={() => setModeListOpen(!modeListOpen)}
-                  items={Object.keys(Scope).map((item) => ({
-                    label: item,
-                    value: item,
-                  }))}
-                  value={value}
-                  setValue={(item: any) => onChange(item())}
-                  mode="BADGE"
-                />
-              );
-            }}
-            rules={{
-              required: {
-                value: true,
-                message: 'Please fill out all required fields.',
-              },
-            }}
-          />
+          {renderList({
+            name: 'customerLocale',
+            title: 'Customer Locale',
+            items: Object.values(Locale).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption:
+              config.customer.name !== undefined
+                ? (config.customer.name[0]?.lang as string)
+                : '',
+          })}
+          {renderTextInput('nameOnCard', 'Name On Card', true)}
+          {renderSwitch('editable', 'Editable')}
+          {renderTextInput('customerId', 'customer Id', false)}
+          {renderTextInput('firstName', 'First Name', true)}
+          {renderTextInput('middleName', 'Middle Name', true)}
+          {renderTextInput('lastName', 'Last Name', true)}
+          {renderTextInput('customerPhone', 'Customer Phone', true)}
+          {renderTextInput(
+            'customerCountryCode',
+            'Customer Country Code',
+            true
+          )}
+          {renderTextInput('customerEmail', 'Customer Email', true)}
+          {renderTextInput('merchantId', 'Merchant Id', false)}
+          {renderTextInput('post', 'post url', false)}
+          {renderTextInput('invoice', 'invoice Id', false)}
+          {renderTextInput('orderDescription', 'Order Description', false)}
+          {renderTextInput('orderId', 'Order Id', false)}
+          {renderTextInput('orderReference', 'Order Reference', false)}
+          {renderTextInput('purpose', 'purpose', false)}
+          {renderList({
+            name: 'purpose',
+            title: 'purpose',
+            items: Object.values(Purpose).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.purpose as string,
+          })}
+          {renderSwitch('cvv', 'cvv')}
+          {renderSwitch('cardHolder', 'Card Holder')}
+          {renderList({
+            name: 'colorStyle',
+            title: 'color Style',
+            items: Object.values(ColorStyle).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.interface?.colorStyle as string,
+          })}
+          {renderList({
+            name: 'direction',
+            title: 'cardDirection',
+            items: Object.values(Direction).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.interface?.cardDirection as string,
+          })}
+          {renderList({
+            name: 'locale',
+            title: 'Local',
+            items: Object.values(Locale).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.interface?.locale as string,
+          })}
+          {renderList({
+            name: 'edges',
+            title: 'Edges',
+            items: Object.values(Edges).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.interface?.edges as string,
+          })}
+          {renderList({
+            name: 'theme',
+            title: 'Theme',
+            items: Object.values(Theme).map((item) => ({
+              key: item,
+              value: item,
+            })),
+            isRequired: true,
+            defaultOption: config.interface?.theme as string,
+          })}
+          {renderSwitch('saveCard', 'Save Card')}
+          {renderSwitch('autoSaveCard', 'Auto Save Card')}
+          {renderSwitch('cardScanner', 'Card Scanner')}
+          {renderSwitch('cardNFC', 'Card Nfc')}
+          {renderSwitch('acceptanceBadge', 'Acceptance Badge')}
 
-          {errors.scope?.message ? (
-            <Text style={styles.errorText}>{`${errors.scope?.message}`}</Text>
-          ) : null}
-          <View style={{ height: 20 }}></View>
-          <Text>{'Merchant Id'}</Text>
-
-          <Controller
-            control={control}
-            name="merchantId"
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.textBox}>
-                <TextInput
-                  style={styles.text}
-                  placeholder="Merchant Id"
-                  defaultValue={value}
-                  onChangeText={(v) => onChange(v)}
-                />
-              </View>
-            )}
-          />
-
-          {errors.merchantId?.message ? (
-            <Text
-              style={styles.errorText}
-            >{`${errors.merchantId?.message}`}</Text>
-          ) : null}
-
-          <View style={{ height: 20 }}></View>
-
-          <Text>{'Amount'}</Text>
-
-          <Controller
-            control={control}
-            name="amount"
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.textBox}>
-                <TextInput
-                  keyboardType="numeric"
-                  style={styles.text}
-                  placeholder="Amount"
-                  defaultValue={value}
-                  onChangeText={(v) => onChange(v)}
-                />
-              </View>
-            )}
-            rules={{
-              required: {
-                value: true,
-                message: 'Please fill out all required fields.',
-              },
-            }}
-          />
-
-          <Text>{'Currency'}</Text>
-
-          <Controller
-            control={control}
-            name="currency"
-            render={({ field: { onChange, value } }) => (
-              <DropDownPicker
-                multiple={false}
-                style={styles.dropdown}
-                placeholder="Select your Currency"
-                placeholderStyle={styles.dropdownPlaceholder}
-                open={currencyListOpen}
-                setOpen={() => setCurrencyListOpen(!currencyListOpen)}
-                items={Object.keys(TapCurrencyCode).map((item) => ({
-                  label: item,
-                  value: item,
-                }))}
-                value={value}
-                setValue={(item: any) => onChange(item())}
-                mode="BADGE"
-              />
-            )}
-            rules={{
-              required: {
-                value: true,
-                message: 'Please fill out all required fields.',
-              },
-            }}
-          />
-
-          {errors.currency?.message ? (
-            <Text
-              style={styles.errorText}
-            >{`${errors.currency?.message}`}</Text>
-          ) : null}
-
-          <View style={{ zIndex: -1 }}>
-            <View style={{ height: 20 }}></View>
-
-            <Text>{'Customer ID'}</Text>
-            <Controller
-              control={control}
-              name="customerId"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Customer Id"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-            />
-
-            {errors.customerId?.message ? (
-              <Text
-                style={styles.errorText}
-              >{`${errors.customerId?.message}`}</Text>
-            ) : null}
-
-            <Text>{'First name'}</Text>
-            <Controller
-              control={control}
-              name="firstName"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="first name"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Please fill out all required fields.',
-                },
-              }}
-            />
-
-            <Text>{'First name'}</Text>
-            <Controller
-              control={control}
-              name="nameOnCard"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Name on Card"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-            />
-
-            {errors.firstName?.message ? (
-              <Text
-                style={styles.errorText}
-              >{`${errors.firstName?.message}`}</Text>
-            ) : null}
-
-            <Text>{'Middle Name'}</Text>
-            <Controller
-              control={control}
-              name="middleName"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Middle Name"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Please fill out all required fields.',
-                },
-              }}
-            />
-
-            {errors.middleName?.message ? (
-              <Text
-                style={styles.errorText}
-              >{`${errors.middleName?.message}`}</Text>
-            ) : null}
-
-            <Text>{'Last Name'}</Text>
-            <Controller
-              control={control}
-              name="lastName"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Last Name"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Please fill out all required fields.',
-                },
-              }}
-            />
-
-            {errors.lastName?.message ? (
-              <Text
-                style={styles.errorText}
-              >{`${errors.lastName?.message}`}</Text>
-            ) : null}
-
-            <Text>{'Customer Phone'}</Text>
-            <Controller
-              control={control}
-              name="customerPhone"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Customer Phone"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Please fill out all required fields.',
-                },
-              }}
-            />
-
-            {errors.customerPhone?.message ? (
-              <Text
-                style={styles.errorText}
-              >{`${errors.customerPhone?.message}`}</Text>
-            ) : null}
-
-            <Text>{'Customer Country Code'}</Text>
-            <Controller
-              control={control}
-              name="customerCountryCode"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Customer Country Code"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Please fill out all required fields.',
-                },
-              }}
-            />
-            {errors.customerCountryCode?.message ? (
-              <Text
-                style={styles.errorText}
-              >{`${errors.customerCountryCode?.message}`}</Text>
-            ) : null}
-
-            <Text>{'Customer Email'}</Text>
-            <Controller
-              control={control}
-              name="customerEmail"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.textBox}>
-                  <TextInput
-                    style={styles.text}
-                    placeholder="Customer Email"
-                    defaultValue={value}
-                    onChangeText={(v) => onChange(v)}
-                  />
-                </View>
-              )}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Please fill out all required fields.',
-                },
-              }}
-            />
-
-            <Text style={{ marginVertical: 10 }}>{'editable'}</Text>
-            <Controller
-              control={control}
-              name="editable"
-              defaultValue={false}
-              render={({ field: { onChange, value } }) => {
-                return (
-                  <Switch
-                    value={value}
-                    onValueChange={(val: boolean) => {
-                      onChange(val);
-                    }}
-                  />
-                );
-              }}
-            />
-
-            <View style={{ height: 20 }}></View>
-
-            <Text>{'Supported Brand'}</Text>
-            <DropDownPicker
-              multiple={true}
-              style={styles.dropdown}
-              placeholder="Supported Brand"
-              placeholderStyle={styles.dropdownPlaceholder}
-              open={supportedBrandListOpen}
-              setOpen={() => setSupportedBrandListOpen(!supportedBrandListOpen)}
-              items={Object.keys(SupportedBrands).map((item) => {
-                return { label: item, value: item };
-              })}
-              value={cardBrands}
-              setValue={setCardBrands}
-              mode="BADGE"
-            />
-            <View style={{ zIndex: -2 }}>
-              <Text>{'Supported Cards'}</Text>
-              <DropDownPicker
-                multiple={true}
-                style={styles.dropdown}
-                placeholder="Supported Cards"
-                placeholderStyle={styles.dropdownPlaceholder}
-                open={supportedCardListOpen}
-                setOpen={() => setSupportedCardListOpen(!supportedCardListOpen)}
-                items={Object.keys(SupportedCards).map((item) => {
-                  return { label: item, value: item };
-                })}
-                value={supportedCards}
-                setValue={setSupportedCards}
-                mode="BADGE"
-              />
-              <View style={{ zIndex: -3 }}>
-                <Controller
-                  control={control}
-                  name="locale"
-                  render={({ field: { onChange, value } }) => {
-                    return (
-                      <DropDownPicker
-                        style={styles.dropdown}
-                        placeholder="Locale"
-                        placeholderStyle={styles.dropdownPlaceholder}
-                        open={localListOpen}
-                        setOpen={() => setLocalListOpen(!localListOpen)}
-                        items={Object.keys(Locale).map((item) => ({
-                          label: item,
-                          value: item,
-                        }))}
-                        value={value}
-                        setValue={(item: any) => onChange(item())}
-                        mode="BADGE"
-                      />
-                    );
-                  }}
-                  rules={{
-                    required: {
-                      value: true,
-                      message: 'Please fill out all required fields.',
-                    },
-                  }}
-                />
-                <View style={{ zIndex: -4 }}>
-                  <Text style={{ marginVertical: 10 }}>{'Card Holder'}</Text>
-                  <Controller
-                    control={control}
-                    name="cardHolder"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>{'cvv'}</Text>
-                  <Controller
-                    control={control}
-                    name="cvv"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>{'powered'}</Text>
-                  <Controller
-                    control={control}
-                    name="powered"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>
-                    {'Acceptance Badge'}
-                  </Text>
-                  <Controller
-                    control={control}
-                    name="acceptanceBadge"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>{'Auto save card'}</Text>
-                  <Controller
-                    control={control}
-                    name="autoSaveCard"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                  <Text style={{ marginVertical: 10 }}>{'Scanner'}</Text>
-                  <Controller
-                    control={control}
-                    name="scanner"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>{'NFC'}</Text>
-                  <Controller
-                    control={control}
-                    name="nfc"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>{'Loader'}</Text>
-                  <Controller
-                    control={control}
-                    name="loader"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-
-                  <Text style={{ marginVertical: 10 }}>{'Save Card'}</Text>
-                  <Controller
-                    control={control}
-                    name="saveCard"
-                    defaultValue={false}
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <Switch
-                          value={value}
-                          onValueChange={(val: boolean) => {
-                            onChange(val);
-                          }}
-                        />
-                      );
-                    }}
-                  />
-                  <Controller
-                    control={control}
-                    name="edges"
-                    render={({ field: { onChange, value } }) => {
-                      return (
-                        <DropDownPicker
-                          style={styles.dropdown}
-                          placeholder="Edges"
-                          placeholderStyle={styles.dropdownPlaceholder}
-                          open={edgesListOpen}
-                          setOpen={() => setEdgesListOpen(!edgesListOpen)}
-                          items={Object.keys(Edges).map((item) => ({
-                            label: item,
-                            value: item,
-                          }))}
-                          value={value}
-                          setValue={(item: any) => {
-                            onChange(item());
-                          }}
-                          mode="BADGE"
-                        />
-                      );
-                    }}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: 'Please fill out all required fields.',
-                      },
-                    }}
-                  />
-                  <View style={{ zIndex: -8 }}>
-                    <Text>{'Direction'}</Text>
-                    <Controller
-                      control={control}
-                      name="direction"
-                      render={({ field: { onChange, value } }) => {
-                        return (
-                          <DropDownPicker
-                            style={styles.dropdown}
-                            placeholder="Direction"
-                            placeholderStyle={styles.dropdownPlaceholder}
-                            open={directionListOpen}
-                            setOpen={() =>
-                              setDirectionListOpen(!directionListOpen)
-                            }
-                            items={Object.keys(Direction).map((item) => ({
-                              label: item,
-                              value: item,
-                            }))}
-                            value={value}
-                            setValue={(item: any) => {
-                              onChange(item());
-                            }}
-                            mode="BADGE"
-                          />
-                        );
-                      }}
-                      rules={{
-                        required: {
-                          value: true,
-                          message: 'Please fill out all required fields.',
-                        },
-                      }}
-                    />
-
-                    <View style={{ zIndex: -1 }}>
-                      <Text>{'Theme'}</Text>
-                      <Controller
-                        control={control}
-                        name="theme"
-                        render={({ field: { onChange, value } }) => {
-                          return (
-                            <DropDownPicker
-                              style={styles.dropdown}
-                              placeholder="Theme"
-                              placeholderStyle={styles.dropdownPlaceholder}
-                              open={themeListOpen}
-                              setOpen={() => setThemeListOpen(!themeListOpen)}
-                              items={Object.keys(Theme).map((item) => ({
-                                label: item,
-                                value: item,
-                              }))}
-                              value={value}
-                              setValue={(item: any) => {
-                                onChange(item());
-                              }}
-                              mode="BADGE"
-                            />
-                          );
-                        }}
-                        rules={{
-                          required: {
-                            value: true,
-                            message: 'Please fill out all required fields.',
-                          },
-                        }}
-                      />
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
+          {renderSwitch('loader', 'loader')}
+          {renderSwitch('powered', 'powered')}
         </View>
-        <View style={{ height: 100, zIndex: -10 }} />
         <TouchableOpacity
           style={styles.button}
           onPress={() => {

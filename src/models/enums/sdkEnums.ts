@@ -1,4 +1,4 @@
-export enum SupportedBrands {
+export enum SupportedSchemes {
   AMEX = 'AMEX',
   CARTESBANCAIRES = 'CARTESBANCAIRES',
   DISCOVER = 'DISCOVER',
@@ -32,12 +32,31 @@ export enum Locale {
   ar = 'ar',
 }
 
-export enum SupportedCards {
+export enum SupportedFundSource {
   All = 'All',
   Debit = 'DEBIT',
   Credit = 'CREDIT',
 }
 
+export enum Purpose {
+  Transaction = 'Transaction',
+  SaveCard = 'Save Card',
+  VerifyCardholder = 'Verify Cardholder',
+  OrderTransaction = 'Order Transaction',
+  SubscriptionTransaction = 'Subscription Transaction',
+  BillingTransaction = 'Billing Transaction',
+  InstallmentTransaction = 'Installment Transaction',
+  MilestoneTransaction = 'Milestone Transaction',
+  MaintainCard = 'Maintain Card',
+}
+
+export enum SupportedPaymentAuthentications {
+  secured = '3ds',
+}
+export enum ColorStyle {
+  monochrome = 'monochrome',
+  colored = 'colored',
+}
 export enum Theme {
   light = 'light',
   dark = 'dark',
