@@ -21,10 +21,10 @@ Pod::Spec.new do |s|
   # See https://github.com/facebook/react-native/blob/febf6b7f33fdb4904669f99d795eba4c0f95d7bf/scripts/cocoapods/new_architecture.rb#L79.
   if respond_to?(:install_modules_dependencies, true)
     install_modules_dependencies(s)
-    s.dependency 'Card-iOS','0.0.22'
+    s.dependency 'Card-iOS','0.0.23'
   else
   s.dependency "React-Core"
-  s.dependency 'Card-iOS','0.0.22'
+  s.dependency 'Card-iOS','0.0.23'
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
     s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
