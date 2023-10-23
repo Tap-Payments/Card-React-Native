@@ -6,9 +6,27 @@ Tap Card React-Native Wrapper
 
 Before diving into the development process, it's essential to establish the prerequisites and criteria necessary for a successful build. In this step, we'll outline the specific iOS requirements, including the minimum SDK version and other important details you need to consider. Let's ensure your project is set up for success from the very beginning.
 
-# Step 1: Requirements[](https://developers.tap.company/docs/card-sdk-ios#step-1-requirements)
+# Step 1: Requirements[]()
 
 -  React native 0.64
+- -   A minimum  [Android SDK/API level](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)  of 24+
+-  In order to be able to use card scanner functionality, please make sure you added the correct permission key-value in the iOS project info.plist.
+    
+    ```xml
+    <key>NSCameraUsageDescription</key>
+    <string>Card SDK needs it for scanner functionality</string>
+    ```
+- in order to accept online payments on your application, you will need to add at least the Internet permission in the manifest file.
+```xml
+    <uses-permission android:name="android.permission.INTERNET" /> //get internet access to complete online payments
+        <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+    <uses-feature
+      android:name="android.hardware.camera"
+      android:required="true" />
+
+```
 
 # Step 2: Get Your Public Keys[]()
 
@@ -51,7 +69,7 @@ This integration offers two distinct options: a simple integration designed for 
 
 Here, you'll discover a comprehensive table featuring the parameters applicable to the simple integration. Additionally, you'll explore the various methods for integrating the SDK, either using storyboard to create the layout and then implementing the controllers functionalities by code, or directly using code. Furthermore, you'll gain insights into card tokenization after the initial payment and learn how to receive the callback notifications.
 
-### Parameters[](https://developers.tap.company/docs/card-sdk-ios#parameters)
+### Parameters[]()
 Each parameter is linked to the  [reference](https://developers.tap.company/docs/card-sdk-ios#reference)  section, which provides a more in depth explanation of it.
 
 
@@ -129,7 +147,7 @@ function MinRequirement() {
   );
 }
 ```
-###  Tokenise the card[](https://developers.tap.company/docs/card-sdk-ios#tokenise-the-card)
+###  Tokenise the card[]()
 
 > 📘
 > 
@@ -144,11 +162,11 @@ cardSdkRef.current.generateToken();
 # Advanced Integration
 ## Advanced Integration
 
-[](https://developers.tap.company/docs/card-sdk-ios#advanced-integration)
+[]()
 
 The advanced configuration for the Card-iOS integration not only has all the features available in the simple integration but also introduces new capabilities, providing merchants with maximum flexibility. You can find a code below, where you'll discover comprehensive guidance on implementing the advanced flow as well as a complete description of each parameter.
 
-### Parameters[](https://developers.tap.company/docs/card-sdk-ios#parameters-1)
+### Parameters[]()
 Each parameter is linked to the  [reference]()  section, which provides a more in depth explanation of it.
 
 |Configuration|Description | Required | Type| Sample
@@ -352,11 +370,11 @@ callbacks that allows integrators to get notified from events fired from the `Ta
 }
 ```
 
-# Parameters Reference[](https://developers.tap.company/docs/card-sdk-ios#parameters-reference)
+# Parameters Reference[]()
 
 Below you will find more details about each parameter shared in the above tables that will help you easily integrate Card-iOS SDK.
 
-## operator[](https://developers.tap.company/docs/card-sdk-ios#operator)
+## operator[]()
 
 1.  Definition: It links the payment gateway to your merchant account with Tap, in order to know your business name, logo, etc...
 2.  Type: string (_required_)
@@ -368,7 +386,7 @@ Below you will find more details about each parameter shared in the above tables
 ```swift
 let operator:[String:Any]: ["publicKey":"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"]
 ```
-## scope [](https://developers.tap.company/docs/card-sdk-ios#scope)
+## scope []()
 
 1.  Definition: This is used in order to identify the type of token you want to generate. A token is created in order to save the card details after submitting the form in a more secure way.
 2.  Type: string (_required_)
@@ -390,7 +408,7 @@ let operator:[String:Any]: ["publicKey":"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"]
         _Definition:_  This means you will get an authenticated token to use in multiple times right away.  
         _Example:_ `let scope:String = "SaveAuthenticatedToken"`
 
-## purpose[](https://developers.tap.company/docs/card-sdk-ios#purpose)
+## purpose[]()
 
 1.  Definition: This will identify the reason of choosing the type of token generated in the scope field, like if it will be used for a single transaction, recurring, saving the token, etc...  
     Note: Only choose the option that suits your needs best.
@@ -429,7 +447,7 @@ let operator:[String:Any]: ["publicKey":"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"]
         _Example:_`let purpose:String = "Maintain Card"`
         
 
-##  order [](https://developers.tap.company/docs/card-sdk-ios#order)
+##  order []()
 
 1.  Definition: This defined the details of the order that you are trying to purchase, in which you need to specify some details like the id, amount, currency ...
 2.  Type: Dictionary, (_required_)
@@ -462,7 +480,7 @@ let operator:[String:Any]: ["publicKey":"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"]
 
 merchant
 
-[](https://developers.tap.company/docs/card-sdk-ios#merchant)
+[]()
 
 1.  Definition: It is the Merchant id that you get from our onboarding team. This will be used as reference for your account in Tap.
 2.  Type: Dictionary (_required_)
@@ -475,7 +493,7 @@ merchant
 ```
         
 
-##  invoice [](https://developers.tap.company/docs/card-sdk-ios#invoice)
+##  invoice []()
 
 1.  Definition: After the token is generated, you can use it to pay for any invoice. Each invoice will have an invoice ID which you can add here using the SDK.  
     Note: An invoice will first show you a receipt/summary of the order you are going to pay for as well as the amount, currency, and any related field before actually opening the payment form and completing the payment.
@@ -489,7 +507,7 @@ let invoice = {id:""}
 ```
         
 
-## customer [](https://developers.tap.company/docs/card-sdk-ios#customer)
+## customer []()
 
 1.  Definition: Here, you will collect the information of the customer that is paying using the token generate in the SDK.
     
@@ -556,7 +574,7 @@ let customer = {
 ```
         
 
-##  featuresv[](https://developers.tap.company/docs/card-sdk-ios#features)
+##  featuresv[]()
 
 1.  Definition: Additional functionalities to be added in order to make the payment gateway experience more customisable for your needs, like showing the accepted card brands on the payment form, save card toggle button...
     
@@ -602,7 +620,7 @@ let features =  {
     
         
 
-## acceptancev[](https://developers.tap.company/docs/card-sdk-ios#acceptance)
+## acceptance[]()
 
 1.  Definition: This will help in controlling the supported payment schemes, like MasterCard and Visa, and the fund source either being debit or credit card and you will also be able to check if you want the customers to complete the 3DS phase (Authentication) or not.
 2.  Type: Dictionary (_optional_)
@@ -649,7 +667,7 @@ let acceptance =  acceptance: {
   ```
         
 
-## fieldVisibility [](https://developers.tap.company/docs/card-sdk-ios#fieldvisibility)
+## fieldVisibility []()
 
 1.  Definition: A boolean to indicate wether or not you want to show/collect the card holder name.
 2.  Type: Dictionary (_optional_)
@@ -668,7 +686,7 @@ let fieldVisibility = {
 ```
             
 
-##  interface [](https://developers.tap.company/docs/card-sdk-ios#interface)
+##  interface []()
 
 1.  Definition: This will help you control the layout (UI) of the payment form, like changing the theme light to dark, the language used (en or ar), ...
 2.  Type: Dictionary (_optional_)
@@ -746,3 +764,233 @@ let interface =  interface: {
 ```Ts
 let post:Post = {"url":""}
 ```        
+# Expected Callbacks Responses[]()
+
+## onBindIdentification
+```json
+{
+    "bin": "557607",
+    "bank": "COMMERCIAL INTERNATIONAL BANK (EGYPT) S.A.E.",
+    "card_brand": "MASTERCARD",
+    "card_type": "DEBIT",
+    "card_category": "PLATINUM",
+    "card_scheme": "MASTERCARD",
+    "country": "EG",
+    "address_required": false,
+    "api_version": "V2",
+    "issuer_id": "bnk_TS02A1320232208a5O41810531",
+    "brand": "MASTERCARD"
+}
+```
+
+## onSuccess
+The response here will differ based on the scope:
+### Token
+```json
+{
+    "id": "tok_4WUP3423199C4Vp18rY9y554",
+    "created": 1697656174554,
+    "object": "token",
+    "live_mode": false,
+    "type": "CARD",
+    "purpose": "Transaction",
+    "source": "CARD-ENCRYPTED",
+    "used": false,
+    "card": {
+        "id": "card_U8Wb34231992m7q185g9i558",
+        "object": "card",
+        "address": {},
+        "funding": "CREDIT",
+        "fingerprint": "gRkNTnMrJPtVYkFDVU485JtGPdhzQr%2FnmHGhlzLBvuc%3D",
+        "brand": "VISA",
+        "scheme": "VISA",
+        "category": "",
+        "exp_month": 2,
+        "exp_year": 44,
+        "last_four": "4242",
+        "first_six": "424242",
+        "first_eight": "42424242",
+        "name": "AHMED",
+        "issuer": {
+            "bank": "",
+            "country": "GB",
+            "id": "bnk_TS05A3420232209Kp2j1810445"
+        }
+    },
+    "save_card": false,
+    "url": ""
+}
+```
+
+
+## AuthenticatedToken
+```json
+{
+    "id": "auth_payer_MhIp23231913vYjl18nx94755",
+    "object": "Authenticate",
+    "live_mode": false,
+    "api_version": "V2",
+    "status": "AUTHENTICATED",
+    "created": "1697656409282",
+    "amount": 1,
+    "currency": "KWD",
+    "save_card": false,
+    "provider": {
+        "name": "MPGS"
+    },
+    "transaction": {
+        "timezone": "UTCZ",
+        "created": "1697656409282"
+    },
+    "response": {
+        "code": "000",
+        "message": "Authentication Successful"
+    },
+    "reference": {
+        "transaction": "tck_LV02G1720231634Xj51824647",
+        "order": "ord_Tlh924231913OouS18vd9O487"
+    },
+    "customer": {
+        "id": "",
+        "name": [
+            {
+                "first_name": "test",
+                "middle_name": "test",
+                "last_name": "test",
+                "locale": "en"
+            }
+        ],
+        "name_on_card": "Ahmed",
+        "email": "test@tap.com",
+        "phone": {
+            "country_code": "+20",
+            "number": "1099137777"
+        }
+    },
+    "source": {
+        "id": "tok_RCiU23231913dWqQ18WV9Q18"
+    },
+    "merchant": {
+        "id": "1124340"
+    },
+    "card": {
+        "first_six": "424242",
+        "scheme": "VISA",
+        "brand": "VISA",
+        "category": "",
+        "last_four": "4242",
+        "name": "AHMED",
+        "expiry": {
+            "month": "02",
+            "year": "44"
+        },
+        "funding": "CREDIT"
+    },
+    "authentication": {
+        "acsEci": "02",
+        "card_enrolled": "Y",
+        "authenticationToken": "jHyn+7YFi1EUAREAAAAvNUe6Hv8=",
+        "transactionId": "h3q0bQzZNyBueA//+57RcpfPo6s=",
+        "version": "3DS1",
+        "channel": "PAYER_BROWSER",
+        "purpose": "Transaction",
+        "url": "https://authenticate.alpha.tap.company/redirect/auth_payer_MhIp23231913vYjl18nx94755",
+        "transStatus": "Y",
+        "mode": "C"
+    },
+    "redirect": {
+        "url": ""
+    }
+}
+```
+
+## SaveAuthenticatedToken
+If the user didn't enable the save token switch, it will be as the previous scope. Otherwise it will be:
+```json
+{
+  "id": "auth_payer_yhFr59231914mJvN18c79665",
+  "object": "Authenticate",
+  "live_mode": false,
+  "api_version": "V2",
+  "status": "AUTHENTICATED",
+  "created": "1697656504329",
+  "amount": 1,
+  "currency": "KWD",
+  "save_card": true,
+  "provider": {
+    "name": "MPGS"
+  },
+  "transaction": {
+    "timezone": "UTCZ",
+    "created": "1697656504329"
+  },
+  "response": {
+    "code": "000",
+    "message": "Authentication Successful"
+  },
+  "reference": {
+    "transaction": "tck_LV02G1720231634Xj60014708",
+    "order": "ord_Zu5d59231914gJa018lJ9b720"
+  },
+  "customer": {
+    "id": "cus_TS01A1520232215Nx3n1810085",
+    "name": [
+      {
+        "first_name": "test",
+        "middle_name": "test",
+        "last_name": "test",
+        "locale": "en"
+      }
+    ],
+    "name_on_card": "Ahmed",
+    "email": "test@tap.com",
+    "phone": {
+      "country_code": "+20",
+      "number": "1099137777"
+    }
+  },
+  "source": {
+    "id": "tok_2AKI58231914GLWn18V69C147"
+  },
+  "merchant": {
+    "id": "1124340"
+  },
+  "card": {
+    "id": "card_rSWi582319149ys718hD9B151",
+    "first_six": "424242",
+    "scheme": "VISA",
+    "brand": "VISA",
+    "category": "",
+    "last_four": "4242",
+    "name": "AHMED",
+    "expiry": {
+      "month": "04",
+      "year": "44"
+    },
+    "funding": "CREDIT"
+  },
+  "authentication": {
+    "acsEci": "02",
+    "card_enrolled": "Y",
+    "authenticationToken": "jHyn+7YFi1EUAREAAAAvNUe6Hv8=",
+    "transactionId": "FOdR5lit6PaxiidyOxmjSS9z1ls=",
+    "version": "3DS1",
+    "channel": "PAYER_BROWSER",
+    "purpose": "Transaction",
+    "url": "https://authenticate.alpha.tap.company/redirect/auth_payer_yhFr59231914mJvN18c79665",
+    "transStatus": "Y",
+    "mode": "C"
+  },
+  "payment_agreement": {
+    "id": "payment_agreement_NDL3172319152Gck18109189",
+    "type": "UNSCHEDULED",
+    "contract": {
+      "id": "card_rSWi582319149ys718hD9B151",
+      "type": "SAVED_CARD"
+    }
+  },
+  "redirect": {
+    "url": ""
+  }
+}
+```
