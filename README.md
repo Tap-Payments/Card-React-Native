@@ -425,35 +425,35 @@ let operator:[String:Any]: ["publicKey":"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"]
 3.  Possible Values:
     -   **Transaction**:  
         _Definition:_  In case the token will be used only for a single charge request.  
-        _Example:_ `let purpose:String = "Transaction"`
+        _Example:_ `const purpose:String = "Transaction"`
         
     -   **Milestone Transaction**:  
         _Definition:_  Using the token for paying a part of a bigger order, when reaching a certain milestone.  
-        _Example:_`let purpose:String = "Milestone Transaction"`
+        _Example:_`const purpose = "Milestone Transaction"`
         
     -   **Instalment Transaction**:  
         _Definition:_  Using the token for a charge that is a part of an instalment plan.  
-        _Example:_`let purpose:String = "Instalment Transaction"`
+        _Example:_`const purpose = "Instalment Transaction"`
         
     -   **Billing Transaction**:  
         _Definition:_  Using the token for paying a bill.  
-        _Example:_`let purpose:String = "Billing Transaction"`
+        _Example:_`const purpose = "Billing Transaction"`
         
     -   **Subscription Transaction**:  
         _Definition:_  Using the token for a recurring based transaction.  
-        _Example:_`let purpose:String = "Subscription Transaction"`
+        _Example:_`const purpose = "Subscription Transaction"`
         
     -   **Verify Cardholder**:  
         _Definition:_  Using the token to verify the ownership of the card, in other words, making sure of the identity of the cardholder.  
-        _Example:_`let purpose:String = "Verify Cardholder*"`
+        _Example:_`const purpose = "Verify Cardholder*"`
         
     -   **Save Card**:  
         _Definition:_  Using the token to save this card and link it to the customer itself.  
-        _Example:_`let purpose:String = "Save Card"`
+        _Example:_`const purpose = "Save Card"`
         
     -   **Maintain Card**:  
         _Definition:_  Used to renew a saved card.  
-        _Example:_`let purpose:String = "Maintain Card"`
+        _Example:_`const purpose = "Maintain Card"`
         
 
 ##  order []()
