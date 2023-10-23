@@ -392,8 +392,8 @@ Below you will find more details about each parameter shared in the above tables
         _Definition_: This is a unique public key that you will receive after creating an account with Tap which is considered a reference to identify you as a merchant. You will receive 2 public keys, one for sandbox/testing and another one for production.  
 4. Example:
         
-```swift
-let operator:[String:Any]: ["publicKey":"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"]
+```ts
+let operator = {publicKey:"pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7"}
 ```
 ## scope []()
 
