@@ -84,7 +84,7 @@ Each parameter is linked to the  [reference](https://developers.tap.company/docs
 
 |Configuration|Description | Required | Type| Sample
 |--|--|--| --|--|
-| operator| This is the `Key` that you will get after registering you bundle id. | True  | `String`| `let operator  {publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7', hashString: ''}` |
+| operator| This is the `Key` that you will get after registering you bundle id. | True  | `String`| `let operator  {publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7'}` |
 | scope| Defines the intention of using the `Card-React-native`. | True  | `Scope`| ` let scope = Scope.AuthenticatedToken`|
 | purpose| Defines the intention of using the `Token` after generation. | True  | `String`| ` let purpose = "Transaction"` |
 | order| This is the `order id` that you created before or `amount` and `currency` to generate a new order.   It will be linked this token. | True  | `Order`| ` let order: = { amount: 1, currency: TapCurrencyCode.SAR, description: '', id: '', , reference : ''}` |
@@ -122,8 +122,7 @@ function MinRequirement() {
             currency: TapCurrencyCode.SAR,
           },
           operator: {
-            publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
-            hashString: '',    
+            publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7'
           },
           scope: Scope.AuthenticatedToken,
           customer: {
@@ -181,7 +180,7 @@ Each parameter is linked to the  [reference]()  section, which provides a more i
 
 |Configuration|Description | Required | Type| Sample
 |--|--|--| --|--|
-| operator| This is the `Key` that you will get after registering you bundle id. | True  | `String`| `let operator  {publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7', hashString: ''}` |
+| operator| This is the `Key` that you will get after registering you bundle id. | True  | `String`| `let operator  {publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7'}` |
 | scope| Defines the intention of using the `Card-React-native`. | True  | `Scope`| ` let scope = Scope.AuthenticatedToken`|
 | purpose| Defines the intention of using the `Token` after generation. | True  | `String`| ` let purpose = "Transaction"` |
 | order| This is the `order id` that you created before or `amount` and `currency` to generate a new order.   It will be linked this token. | True  | `Order`| ` let order: = { amount: 1, currency: TapCurrencyCode.SAR, description: '', id: '', , reference : ''}` |
@@ -217,8 +216,7 @@ const config = React.useMemo(() => {
       },
       purpose: Purpose.BillingTransaction,
       operator: {
-        publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
-        hashString: '',
+        publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7'
       },
       scope: Scope.AuthenticatedToken,
       customer: {
