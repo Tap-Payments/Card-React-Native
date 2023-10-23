@@ -2,9 +2,18 @@
 
 Tap Card React-Native Wrapper
 
+
 # Introduction[]()
 
 Before diving into the development process, it's essential to establish the prerequisites and criteria necessary for a successful build. In this step, we'll outline the specific iOS requirements, including the minimum SDK version and other important details you need to consider. Let's ensure your project is set up for success from the very beginning.
+
+
+# Sample Demo[]()
+
+
+https://github.com/Tap-Payments/Card-React-Native/assets/121755223/5a926c3b-45f3-4ed8-94e2-e1e69deb55a3
+
+
 
 # Step 1: Requirements[]()
 
