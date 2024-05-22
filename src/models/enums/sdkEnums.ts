@@ -20,8 +20,6 @@ export enum SupportedSchemes {
 export enum Scope {
   Token = 'Token',
   AuthenticatedToken = 'AuthenticatedToken',
-  SaveToken = 'SaveToken',
-  SaveAuthenticatedToken = 'SaveAuthenticatedToken',
 }
 
 export enum SdkMode {
@@ -41,15 +39,9 @@ export enum SupportedFundSource {
 }
 
 export enum Purpose {
-  Transaction = 'Transaction',
-  SaveCard = 'Save Card',
-  VerifyCardholder = 'Verify Cardholder',
-  OrderTransaction = 'Order Transaction',
-  SubscriptionTransaction = 'Subscription Transaction',
-  BillingTransaction = 'Billing Transaction',
-  InstallmentTransaction = 'Installment Transaction',
-  MilestoneTransaction = 'Milestone Transaction',
-  MaintainCard = 'Maintain Card',
+  Charge = 'Charge',
+  Authorize = 'Authorize',
+  SaveToken = 'Save Token',
 }
 
 export enum SupportedPaymentAuthentications {

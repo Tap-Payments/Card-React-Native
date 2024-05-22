@@ -495,7 +495,6 @@ function ConfigScreen({ route, navigation }: Props) {
           {renderTextInput('orderDescription', 'Order Description', false)}
           {renderTextInput('orderId', 'Order Id', false)}
           {renderTextInput('orderReference', 'Order Reference', false)}
-          {renderTextInput('purpose', 'purpose', false)}
           {renderList({
             name: 'purpose',
             title: 'purpose',

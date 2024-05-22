@@ -45,7 +45,7 @@ function HomeScreen({ navigation }: Props) {
     post: {
       url: 'Map to authenticate.reference.post',
     },
-    purpose: Purpose.BillingTransaction,
+    purpose: Purpose.Charge,
     operator: {
       publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     },
