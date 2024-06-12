@@ -1,14 +1,14 @@
 PODS:
   - boost (1.76.0)
-  - Card-iOS (0.0.31):
+  - Card-iOS (0.0.32):
     - SharedDataModels-iOS
     - SnapKit
     - SwiftEntryKit
     - SwiftyRSA
     - TapCardScannerWebWrapper-iOS
     - TapFontKit-iOS
-  - card-react-native (0.0.11):
-    - Card-iOS
+  - card-react-native (0.0.12):
+    - Card-iOS (= 0.0.32)
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - CocoaAsyncSocket (7.6.5)
@@ -708,8 +708,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
-  Card-iOS: 375ecade55374a05e35e7c34cb0110b83a1f6fd6
-  card-react-native: 5fe4e1c52f1490663a4da46bae7be2bb80aedc0d
+  Card-iOS: d5e538adead1cc27c0b11056a9a8dbe0e29770cc
+  card-react-native: 657e2c43e9f2d5bf3fa0ab99d9ccbf48a7ac730b
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 5d4a3b7f411219a45a6d952f77d2c0a6c9989da5
