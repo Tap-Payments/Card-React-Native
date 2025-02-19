@@ -31,6 +31,7 @@ class CardSdkReactNativeView : UIView {
     @objc var onSuccess: RCTDirectEventBlock?
     @objc var onError: RCTDirectEventBlock?
     @objc var onHeightChange: RCTDirectEventBlock?
+    @objc var onChangeSaveCard: RCTDirectEventBlock?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -134,4 +135,11 @@ extension CardSdkReactNativeView: TapCardViewDelegate {
         }
         onHeightChange(["data": height])
     }
+  
+  func onChangeSaveCard(enabled: Bool) {
+    guard let onChangeSaveCard = onChangeSaveCard else{
+        return
+    }
+    onChangeSaveCard(["data": enabled])
+  }
 }

@@ -53,6 +53,7 @@ export interface ITapCardViewProps {
   onBinIdentification: (binIdentification: Object) => void;
   onInvalidInput: (invalid: boolean) => void;
   onError: (error: object) => void;
+  onChangeSaveCard: (saveCard: boolean) => void;
 }
 
 export interface ITapCardViewNativeProps {
@@ -76,6 +77,9 @@ export interface ITapCardViewNativeProps {
   onError: ({
     nativeEvent: { data },
   }: NativeSyntheticEvent<{ data: Object }>) => void;
+  onChangeSaveCard: ({
+    nativeEvent: { data },
+  }: NativeSyntheticEvent<{ data: boolean }>) => void;
 }
 
 // UIManager.setLayoutAnimationEnabledExperimental &&
@@ -92,6 +96,7 @@ function TapCardView(
     onBinIdentification,
     onInvalidInput,
     onError,
+    onChangeSaveCard,
   }: ITapCardViewProps,
   ref: TapCardViewInputRef
 ) {
@@ -162,27 +167,30 @@ function TapCardView(
     onError(data);
   };
 
+  const handleOnChangeSaveCard = ({
+    nativeEvent: { data },
+  }: NativeSyntheticEvent<{ data: boolean }>) => {
+    onChangeSaveCard(data);
+  };
+
   const iosConfig = useMemo(() => {
-    if (config?.features?.alternativeCardInputs.cardNFC !== undefined) {
-      return {
-        ...config,
-        features: {
-          ...config.features,
-          alternativeCardInputs: {
-            ...(config.features.alternativeCardInputs ?? {
-              cardNFC: false,
-              cardScanner: false,
-            }),
-            cardNFC:
-              Platform.OS === 'ios'
-                ? false
-                : config.features.alternativeCardInputs.cardNFC ?? false,
-          },
-        },
-      };
-    } else {
-      return { ...config };
-    }
+    // if (config?.features?.alternativeCardInputs.cardNFC !== undefined) {
+    //   return {
+    //     ...config,
+    //     features: {
+    //       ...config.features,
+    //       alternativeCardInputs: {
+    //         ...(config.features.alternativeCardInputs ?? {
+    //           cardNFC: false,
+    //           cardScanner: false,
+    //         }),
+    //         cardNFC: false,
+    //       },
+    //     },
+    //   };
+    // } else {
+    return { ...config };
+    // }
   }, [config]);
 
   return (
@@ -203,6 +211,7 @@ function TapCardView(
         onHeightChange={handleOnHeightChange}
         onBinIdentification={handleOnBinIdentification}
         onInvalidInput={handleOnInvalidInput}
+        onChangeSaveCard={handleOnChangeSaveCard}
         onError={handleOnError}
       />
     </View>

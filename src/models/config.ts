@@ -3,13 +3,11 @@ import type {
   Direction,
   Edges,
   Locale,
-  Scope,
   SupportedSchemes,
   SupportedFundSource,
   SupportedPaymentAuthentications,
   TapCurrencyCode,
   Theme,
-  Purpose,
 } from './enums';
 
 export type Merchant = { id: String };
@@ -105,16 +103,85 @@ export type Features = {
   };
 };
 export type Config = {
-  merchant?: Merchant;
-  order: Order;
-  invoice?: Invoice;
-  post?: Post;
-  operator: { publicKey: string };
-  purpose?: Purpose;
-  fieldVisibility?: Fields;
-  acceptance?: Acceptance;
-  interface?: InterfaceConfig;
-  scope: Scope;
-  customer: Customer;
-  features?: Features;
+  order: {
+    description: string;
+    id: string;
+    amount: number;
+    currency: string;
+    reference: string;
+    metadata: {
+      [key: string]: string;
+    };
+  };
+  purpose: string;
+  scope: string;
+  post: {
+    url: string;
+  };
+  features: {
+    customerCards: {
+      autoSaveCard: boolean;
+      saveCard: boolean;
+    };
+    alternativeCardInputs: {
+      cardScanner: boolean;
+    };
+    acceptanceBadge: boolean;
+  };
+  customer: {
+    contact: {
+      email: string;
+      phone: {
+        countryCode: string;
+        number: string;
+      };
+    };
+    name: Array<{
+      lang: string;
+      first: string;
+      middle: string;
+      last: string;
+    }>;
+    nameOnCard: string;
+    id: string;
+    editable: boolean;
+  };
+  acceptance: {
+    supportedSchemes: string[];
+    supportedFundSource: string[];
+    supportedPaymentAuthentications: string[];
+  };
+  operator: {
+    publicKey: string;
+  };
+  fieldVisibility: {
+    card: {
+      cvv: boolean;
+      cardHolder: boolean;
+    };
+  };
+  merchant: {
+    id: string;
+  };
+  invoice: {
+    id: string;
+  };
+  transaction: {
+    paymentAgreement: {
+      id: string;
+      contract: {
+        id: string;
+      };
+    };
+    reference: string;
+  };
+  interface: {
+    powered: boolean;
+    loader: boolean;
+    theme: string;
+    cardDirection: string;
+    colorStyle: string;
+    edges: string;
+    locale: string;
+  };
 };

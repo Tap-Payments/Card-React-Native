@@ -9,104 +9,102 @@ import {
 import type { RootStackParamList } from './Screens.types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import TapCardView, {
-  TapCurrencyCode,
   type Config,
-  Locale,
-  SupportedSchemes,
-  SupportedFundSource,
-  Theme,
-  Edges,
-  Direction,
-  Scope,
   type ITapCardViewInputRef,
-  SupportedPaymentAuthentications,
-  ColorStyle,
-  Purpose,
 } from 'card-react-native';
 import { useState, type MutableRefObject } from 'react';
 type Props = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>;
 
 function HomeScreen({ navigation }: Props) {
   const [config, setConfigState] = useState<Config>({
-    merchant: {
-      id: '',
-    },
     order: {
-      reference: '',
+      description: 'Authentication description',
+      id: '',
       amount: 1,
-      currency: TapCurrencyCode.SAR,
-      description: '',
-      id: '',
-      metadata: {},
+      currency: 'SAR',
+      reference: 'order_ref',
+      metadata: {
+        key: 'value',
+      },
     },
-    invoice: {
-      id: 'Map to authenticate.reference.invoice',
-    },
+    purpose: 'Charge',
+    scope: 'Token',
     post: {
-      url: 'Map to authenticate.reference.post',
+      url: '',
     },
-    purpose: Purpose.Charge,
-    operator: {
-      publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
+    features: {
+      customerCards: {
+        autoSaveCard: true,
+        saveCard: true,
+      },
+      alternativeCardInputs: {
+        cardScanner: true,
+      },
+      acceptanceBadge: true,
     },
-    scope: Scope.AuthenticatedToken,
     customer: {
-      nameOnCard: 'Tap Payments',
-      editable: true,
-      id: '',
+      contact: {
+        email: 'tap@tap.company',
+        phone: {
+          countryCode: '+965',
+          number: '88888888',
+        },
+      },
       name: [
         {
-          first: 'Tap',
-          lang: Locale.en,
-          middle: 'Company',
-          last: 'Payments',
+          lang: 'en',
+          first: 'TAP',
+          middle: '',
+          last: 'PAYMENTS',
         },
       ],
-      contact: {
-        phone: {
-          number: '88888888',
-          countryCode: '+965',
-        },
-        email: 'tappayments@tap.company',
-      },
+      nameOnCard: 'TAP PAYMENTS',
+      id: '',
+      editable: true,
     },
     acceptance: {
       supportedSchemes: [
-        SupportedSchemes.AMEX,
-        SupportedSchemes.MASTERCARD,
-        SupportedSchemes.VISA,
-        SupportedSchemes.MADA,
+        'AMERICAN_EXPRESS',
+        'VISA',
+        'MASTERCARD',
+        'OMANNET',
+        'MADA',
       ],
-      supportedFundSource: [
-        SupportedFundSource.Debit,
-        SupportedFundSource.Credit,
-      ],
-      supportedPaymentAuthentications: [
-        SupportedPaymentAuthentications.secured,
-      ],
+      supportedFundSource: ['CREDIT', 'DEBIT'],
+      supportedPaymentAuthentications: ['3DS'],
+    },
+    operator: {
+      publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
     },
     fieldVisibility: {
-      card: { cardHolder: true, cvv: true },
+      card: {
+        cvv: false,
+        cardHolder: true,
+      },
+    },
+    merchant: {
+      id: '1124340',
+    },
+    invoice: {
+      id: 'inv',
+    },
+    transaction: {
+      paymentAgreement: {
+        id: '',
+        contract: {
+          id: '',
+        },
+      },
+      reference: 'trx_ref',
     },
     interface: {
-      loader: true,
-      locale: Locale.en,
-      theme: Theme.dark,
-      edges: Edges.curved,
-      cardDirection: Direction.ltr,
-      colorStyle: ColorStyle.colored,
       powered: true,
-    },
-    features: {
-      alternativeCardInputs: {
-        cardNFC: true,
-        cardScanner: true,
-      },
-      customerCards: {
-        saveCard: true,
-        autoSaveCard: true,
-      },
-      acceptanceBadge: true,
+      loader: true,
+      theme: 'light',
+      cardDirection: 'LTR',
+      colorStyle: 'colored',
+      edges: 'curved',
+      locale: 'dynamic',
     },
   });
 
@@ -144,6 +142,11 @@ function HomeScreen({ navigation }: Props) {
           ref={testRef}
           style={{ width: '95%' }}
           config={config}
+          onChangeSaveCard={(cardSaved: boolean) => {
+            setResponse(
+              `${response} \n =====cardSaved====  \n ${cardSaved} \n =====cardSaved===== \n`
+            );
+          }}
           onHeightChange={() => {}}
           onReady={() => {
             setResponse(

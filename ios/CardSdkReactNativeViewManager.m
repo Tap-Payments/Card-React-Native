@@ -13,8 +13,10 @@ RCT_EXPORT_VIEW_PROPERTY(onBinIdentification, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onInvalidInput, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onError, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onHeightChange, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onChangeSaveCard, RCTDirectEventBlock)
 RCT_EXTERN_METHOD(generateToken:(nonnull NSNumber *)node)
 @end
+
 
 
 

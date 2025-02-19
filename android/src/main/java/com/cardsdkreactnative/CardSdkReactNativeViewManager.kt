@@ -50,15 +50,16 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
 
 
   override fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Any>? {
-    return MapBuilder.of(
-      "onHeightChange",MapBuilder.of("registrationName","onHeightChange"),
-      "onSuccess", MapBuilder.of("registrationName","onSuccess"),
-      "onReadyCallback", MapBuilder.of("registrationName","onReadyCallback"),
-      "onFocusCallback", MapBuilder.of("registrationName","onFocusCallback"),
-      "onBinIdentification", MapBuilder.of("registrationName","onBinIdentification"),
-      "onInvalidInput", MapBuilder.of("registrationName","onInvalidInput"),
-      "onError", MapBuilder.of("registrationName","onError"),
-    )
+    return MapBuilder.builder<String, Any>()
+    .put("onHeightChange", MapBuilder.of("registrationName", "onHeightChange"))
+    .put("onSuccess", MapBuilder.of("registrationName", "onSuccess"))
+    .put("onReadyCallback", MapBuilder.of("registrationName", "onReadyCallback"))
+    .put("onFocusCallback", MapBuilder.of("registrationName", "onFocusCallback"))
+    .put("onBinIdentification", MapBuilder.of("registrationName", "onBinIdentification"))
+    .put("onInvalidInput", MapBuilder.of("registrationName", "onInvalidInput"))
+    .put("onError", MapBuilder.of("registrationName", "onError"))
+    .put("onChangeSaveCard", MapBuilder.of("registrationName", "onChangeSaveCard"))
+    .build()
   }
   @ReactProp(name = "config")
   fun setConfig(view: View, config: ReadableMap) {
@@ -101,7 +102,7 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
         Log.e("configTest", data)
       }
 
-      override fun onError(error: String) {
+      override fun onCardError(error: String) {
         val event = Arguments.createMap().apply {
           putString("data", error)
         }
@@ -112,7 +113,7 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
         Log.e("configTest", error)
       }
 
-      override fun onFocus() {
+      override fun onCardFocus() {
         val event = Arguments.createMap().apply {
           putString("data","")
         }
@@ -123,7 +124,7 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
         Log.e("configTest", "onFocus")
       }
 
-      override fun onReady() {
+      override fun onCardReady() {
         val event = Arguments.createMap().apply {
           putString("data","")
         }
@@ -134,7 +135,7 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
         Log.e("configTest", "onReady")
       }
 
-      override fun onSuccess(data: String) {
+      override fun onCardSuccess(data: String) {
         val event = Arguments.createMap().apply {
           putString("data",data)
         }
@@ -154,6 +155,18 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
         reactContext
           .getJSModule(RCTEventEmitter::class.java)
           .receiveEvent(view.id, "onInvalidInput", event)
+//        customView.generateTapToken()
+      }
+
+      override fun onChangeSaveCard(enabled: Boolean) {
+        Log.e("configTest", enabled.toString())
+        val event = Arguments.createMap().apply {
+          putBoolean("data",enabled)
+        }
+        val reactContext = view.context as ReactContext
+        reactContext
+          .getJSModule(RCTEventEmitter::class.java)
+          .receiveEvent(view.id, "onChangeSaveCard", event)
 //        customView.generateTapToken()
       }
 
