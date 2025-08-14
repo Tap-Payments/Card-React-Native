@@ -53,7 +53,7 @@ npm install card-react-native
 ```
 
 ```sh
-yarn install card-react-native
+yarn add card-react-native
 ```
 
 Then run in your terminal
