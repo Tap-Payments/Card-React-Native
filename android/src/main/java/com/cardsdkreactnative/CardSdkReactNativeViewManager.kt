@@ -1,5 +1,6 @@
 package com.cardsdkreactnative
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +13,11 @@ import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.uimanager.events.RCTEventEmitter
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import company.tap.tapcardformkit.open.TapCardStatusDelegate
 import company.tap.tapcardformkit.open.web_wrapper.TapCardConfiguration
 import company.tap.tapcardformkit.open.web_wrapper.TapCardKit
-
 
 class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
   val GENERATE_TOKEN = 3
@@ -64,6 +66,7 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
   @ReactProp(name = "config")
   fun setConfig(view: View, config: ReadableMap) {
     print(config.toString())
+    initializeFirebase(view.context.getApplicationContext());
 
     TapCardConfiguration.configureWithTapCardDictionaryConfiguration(view.context, customView ,config.toHashMap(), object : TapCardStatusDelegate{
 
@@ -173,5 +176,20 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
     })
 //    customView.init()
 //    view.setBackgroundColor(Color.parseColor(color))
+  }
+  private fun initializeFirebase(context: Context) {
+    try {
+      if (FirebaseApp.getApps(context).isEmpty()) {
+        val options = FirebaseOptions.Builder()
+          .setApiKey("AIzaSyDHnW6NQ3bifZsmzGdyVLd2t6f8U1lSqlE")
+          .setApplicationId("com.example.tapcardwebsdk")
+          .setProjectId("your-project-id")
+          .build()
+        FirebaseApp.initializeApp(context, options)
+        println("Firebase initialized manually")
+      }
+    } catch (e: Exception) {
+      System.err.println("Error initializing Firebase: " + e.message)
+    }
   }
 }

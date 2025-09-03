@@ -106,7 +106,11 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation 'com.github.Tap-Payments:Card-Android:1.0.6'
+  implementation('com.github.Tap-Payments:Card-Android:1.0.7') {
+      exclude group: 'com.google.firebase', module: 'firebase-iid'
+  }
+  implementation 'com.google.firebase:firebase-core:+'
+  implementation 'com.google.firebase:firebase-common:+'
 }
 
 if (isNewArchitectureEnabled()) {

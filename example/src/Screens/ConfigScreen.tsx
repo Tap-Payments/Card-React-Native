@@ -40,10 +40,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ConfigScreen'>;
 
 function ConfigScreen({ route, navigation }: Props) {
   const { config, setConfig } = route.params;
-  const [supportedCards, setSupportedFundSource] = useState<
-    SupportedFundSource[]
-  >(config.acceptance?.supportedFundSource ?? []);
-  const [cardBrands, setCardBrands] = useState<SupportedSchemes[]>(
+  const [supportedCards, setSupportedFundSource] = useState<string[]>(
+    config.acceptance?.supportedFundSource ?? []
+  );
+  const [cardBrands, setCardBrands] = useState<string[]>(
     config.acceptance?.supportedSchemes ?? []
   );
 
@@ -225,6 +225,15 @@ function ConfigScreen({ route, navigation }: Props) {
         theme: data.theme,
         locale: data.locale,
         edges: data.edges,
+      },
+      transaction: {
+        paymentAgreement: {
+          id: '',
+          contract: {
+            id: '',
+          },
+        },
+        reference: '',
       },
     });
     navigation.pop();

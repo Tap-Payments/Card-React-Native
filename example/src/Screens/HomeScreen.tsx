@@ -39,6 +39,7 @@ function HomeScreen({ navigation }: Props) {
       },
       alternativeCardInputs: {
         cardScanner: true,
+        cardNFC: true,
       },
       acceptanceBadge: true,
     },

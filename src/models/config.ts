@@ -125,6 +125,7 @@ export type Config = {
     };
     alternativeCardInputs: {
       cardScanner: boolean;
+      cardNFC: boolean;
     };
     acceptanceBadge: boolean;
   };
