@@ -253,9 +253,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample/Pods-CardSdkReactNativeExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample/Pods-CardSdkReactNativeExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -314,9 +318,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -325,15 +333,19 @@
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample/Pods-CardSdkReactNativeExample-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample/Pods-CardSdkReactNativeExample-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -348,9 +360,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests/Pods-CardSdkReactNativeExample-CardSdkReactNativeExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

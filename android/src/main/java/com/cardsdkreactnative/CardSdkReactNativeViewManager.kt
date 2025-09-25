@@ -68,7 +68,8 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
     print(config.toString())
     initializeFirebase(view.context.getApplicationContext());
 
-    TapCardConfiguration.configureWithTapCardDictionaryConfiguration(view.context, customView ,config.toHashMap(), object : TapCardStatusDelegate{
+    val configMap = config.toHashMap().filterValues { it != null } as HashMap<String, Any>
+    TapCardConfiguration.configureWithTapCardDictionaryConfiguration(view.context, customView ,configMap, object : TapCardStatusDelegate{
 
       override fun onHeightChange(heightChange: String) {
 //        view.layoutParams.height = 95
