@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   SafeAreaView,
@@ -9,6 +10,11 @@ import {
 import type { RootStackParamList } from './Screens.types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import TapCardView, {
+  Scope,
+  SupportedFundSource,
+  SupportedPaymentAuthentications,
+  SupportedSchemes,
+  TapCurrencyCode,
   type Config,
   type ITapCardViewInputRef,
 } from 'card-react-native';
@@ -17,95 +23,96 @@ type Props = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>;
 
 function HomeScreen({ navigation }: Props) {
   const [config, setConfigState] = useState<Config>({
+    merchant: {
+      id: '67966359',
+    },
+    operator: {
+      publicKey: 'pk_test_LFyakwcWDeuoAO1mTgRfd5Hi',
+    },
     order: {
-      description: 'Authentication description',
-      id: '',
       amount: 1,
-      currency: 'SAR',
-      reference: 'order_ref',
-      metadata: {
-        key: 'value',
-      },
+      currency: TapCurrencyCode.AED,
+      description: 'Payment for order',
+      id: '',
+      reference: '',
+      metadata: {},
     },
-    purpose: 'Charge',
-    scope: 'Token',
-    post: {
-      url: '',
-    },
-    features: {
-      customerCards: {
-        autoSaveCard: true,
-        saveCard: true,
-      },
-      alternativeCardInputs: {
-        cardScanner: true,
-        cardNFC: true,
-      },
-      acceptanceBadge: true,
-    },
+    scope: Scope.AuthenticatedToken,
+    purpose: 'Save Card',
     customer: {
-      contact: {
-        email: 'tap@tap.company',
-        phone: {
-          countryCode: '+965',
-          number: '88888888',
-        },
-      },
+      id: 'cus_TS02A1320251102Kh950309263',
+      nameOnCard: 'Mahmoud Allam 11',
+      editable: true,
       name: [
         {
+          first: 'Mahmoud',
           lang: 'en',
-          first: 'TAP',
           middle: '',
-          last: 'PAYMENTS',
+          last: 'Allam',
         },
       ],
-      nameOnCard: 'TAP PAYMENTS',
-      id: '',
-      editable: true,
+      contact: {
+        phone: {
+          number: '123123213',
+          countryCode: '+971',
+        },
+        email: 'test@example.com',
+      },
+    },
+    interface: {
+      loader: true,
+      locale: 'eng',
+      theme: 'light',
+      edges: 'curved',
+      cardDirection: 'ltr',
+      colorStyle: 'colored',
+      powered: true,
     },
     acceptance: {
       supportedSchemes: [
-        'AMERICAN_EXPRESS',
-        'VISA',
-        'MASTERCARD',
-        'OMANNET',
-        'MADA',
+        SupportedSchemes.AMEX,
+        SupportedSchemes.MASTERCARD,
+        SupportedSchemes.VISA,
       ],
-      supportedFundSource: ['CREDIT', 'DEBIT'],
-      supportedPaymentAuthentications: ['3DS'],
-    },
-    operator: {
-      publicKey: 'pk_test_YhUjg9PNT8oDlKJ1aE2fMRz7',
+      supportedFundSource: [
+        SupportedFundSource.Debit,
+        SupportedFundSource.Credit,
+      ],
+      supportedPaymentAuthentications: [
+        SupportedPaymentAuthentications.secured,
+      ],
     },
     fieldVisibility: {
       card: {
-        cvv: false,
         cardHolder: true,
+        cvv: true,
       },
     },
-    merchant: {
-      id: '1124340',
+    features: {
+      acceptanceBadge: true,
+      customerCards: {
+        saveCard: true,
+        autoSaveCard: true,
+      },
+      alternativeCardInputs: {
+        cardScanner: false,
+        cardNFC: false,
+      },
+    },
+    post: {
+      url: `/api/v1/payment_cards`,
     },
     invoice: {
-      id: 'inv',
+      id: '',
     },
     transaction: {
+      reference: '',
       paymentAgreement: {
         id: '',
         contract: {
           id: '',
         },
       },
-      reference: 'trx_ref',
-    },
-    interface: {
-      powered: true,
-      loader: true,
-      theme: 'light',
-      cardDirection: 'LTR',
-      colorStyle: 'colored',
-      edges: 'curved',
-      locale: 'dynamic',
     },
   });
 
@@ -123,7 +130,6 @@ function HomeScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           flex: 1,
           alignItems: 'center',

@@ -12,7 +12,10 @@ class CardSdkReactNativeViewManager: RCTViewManager {
     
     @objc func generateToken(_ node:NSNumber) {
         DispatchQueue.main.async {
-            let myLabel = self.bridge.uiManager.view(forReactTag: node) as! CardSdkReactNativeView
+          guard let uiManager = self.bridge.module(for: RCTUIManager.self) as? RCTUIManager else {
+                return
+            }
+            let myLabel = uiManager.view(forReactTag: node) as! CardSdkReactNativeView
             myLabel.generateToken()
         }
     }

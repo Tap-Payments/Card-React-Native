@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -62,7 +63,7 @@ function ConfigScreen({ route, navigation }: Props) {
     setValue(
       'firstName',
       config.customer.name !== undefined
-        ? config.customer.name[0]?.first ?? ''
+        ? (config.customer.name[0]?.first ?? '')
         : ''
     );
     setValue(
@@ -445,7 +446,7 @@ function ConfigScreen({ route, navigation }: Props) {
             isRequired: true,
             defaultOption: config.scope as string,
           })}
-          <View style={{ height: 10 }}></View>
+          <View style={{ height: 10 }} />
           {renderMultipleList({
             name: 'brands',
             title: 'Supported Schemes',

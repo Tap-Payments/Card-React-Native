@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   requireNativeComponent,
   UIManager,
@@ -9,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import type { Config } from './models';
-import React, {
+import {
   useImperativeHandle,
   type Ref,
   forwardRef,
@@ -45,7 +46,6 @@ export type TapCardViewInputRef = Ref<ITapCardViewInputRef>;
 export interface ITapCardViewProps {
   style: ViewStyle;
   config: Config;
-  ref: TapCardViewInputRef;
   onSuccess: (token: Object) => void;
   onReady: () => void;
   onFocus: () => void;
@@ -102,7 +102,7 @@ function TapCardView(
 ) {
   const viewRef =
     useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
-  const [height, setHeight] = useState(style.height ?? 95);
+  const [height, setHeight] = useState(style.height ?? 90.5);
   const [addFlex, setAddFlex] = useState(false);
 
   const generateToken = useCallback(() => {

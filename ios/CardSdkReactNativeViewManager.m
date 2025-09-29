@@ -18,6 +18,3 @@ RCT_EXTERN_METHOD(generateToken:(nonnull NSNumber *)node)
 @end
 
 
-
-
-
