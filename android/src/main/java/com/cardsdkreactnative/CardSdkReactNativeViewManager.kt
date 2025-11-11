@@ -62,6 +62,7 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
     .put("onError", MapBuilder.of("registrationName", "onError"))
     .put("onChangeSaveCard", MapBuilder.of("registrationName", "onChangeSaveCard"))
     .build()
+    .toMutableMap()
   }
   @ReactProp(name = "config")
   fun setConfig(view: View, config: ReadableMap) {
