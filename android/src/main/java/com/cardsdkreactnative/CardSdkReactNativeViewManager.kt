@@ -96,6 +96,16 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
           .receiveEvent(view.id, "onHeightChange", event)
       }
 
+      override fun onInValidInput(isValid: Boolean) {
+        val event = Arguments.createMap().apply {
+          putBoolean("data",isValid)
+        }
+        val reactContext = view.context as ReactContext
+        reactContext
+          .getJSModule(RCTEventEmitter::class.java)
+          .receiveEvent(view.id, "onInvalidInput", event)
+      }
+
       override fun onBindIdentification(data: String) {
         val event = Arguments.createMap().apply {
           putString("data", data)
