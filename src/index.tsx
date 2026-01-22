@@ -102,7 +102,7 @@ function TapCardView(
 ) {
   const viewRef =
     useRef<ITapCardViewInputRef>() as MutableRefObject<ITapCardViewInputRef>;
-  const [height, setHeight] = useState(style.height ?? 95);
+  const [height, setHeight] = useState(style.height ?? 94);
   const [addFlex, setAddFlex] = useState(false);
 
   const generateToken = useCallback(() => {

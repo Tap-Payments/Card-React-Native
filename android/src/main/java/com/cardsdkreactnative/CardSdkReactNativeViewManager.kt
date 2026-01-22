@@ -162,6 +162,17 @@ class CardSdkReactNativeViewManager : SimpleViewManager<View>() {
 //        customView.generateTapToken()
       }
 
+
+        override fun onInValidInput(isValid: Boolean) {
+            val event = Arguments.createMap().apply {
+                putBoolean("data",isValid)
+            }
+            val reactContext = view.context as ReactContext
+            reactContext
+                .getJSModule(RCTEventEmitter::class.java)
+                .receiveEvent(view.id, "onInvalidInput", event)
+        }
+
       override fun onChangeSaveCard(enabled: Boolean) {
         Log.e("configTest", enabled.toString())
         val event = Arguments.createMap().apply {
