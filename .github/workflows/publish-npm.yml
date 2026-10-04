@@ -58,9 +58,10 @@ jobs:
           corepack enable
           yarn --version
 
-      # Trusted publishing needs npm 11.5.1 or newer, node 20 ships with npm 10
+      # Trusted publishing needs npm 11.5.1 or newer, node 20 ships with npm 10.
+      # npm 12 requires node 22, so stay on 11 while .nvmrc is node 20
       - name: Update npm
-        run: npm install -g npm@latest
+        run: npm install -g npm@^11.5.1
 
       - name: Install dependencies
         run: yarn install --immutable
