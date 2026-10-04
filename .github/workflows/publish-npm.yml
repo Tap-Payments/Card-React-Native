@@ -60,5 +60,12 @@ jobs:
       - name: Build
         run: yarn prepare
 
+      # A re-run for a version that is already on npm would be rejected as a duplicate
       - name: Publish
-        run: npm publish --access public
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "card-react-native@$VERSION" version > /dev/null 2>&1; then
+            echo "card-react-native@$VERSION is already on npm, nothing to publish"
+            exit 0
+          fi
+          npm publish --access public
