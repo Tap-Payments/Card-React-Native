@@ -1,32 +1,52 @@
-# Publishes card-react-native to npm.
+# Releases card-react-native when something is merged into main.
 #
-# Triggered by pushing a version tag (ex v1.0.9), or manually for an existing tag.
-# Uses npm Trusted Publishing (OIDC), so no token or secret is needed. On npmjs.com, the
+# Runs `release-it` in CI (patch by default): bumps package.json, commits `chore: release x.y.z`,
+# tags `vx.y.z`, pushes, creates the GitHub release, then publishes to npm.
+# Can also be run manually from the Actions tab to pick minor or major.
+#
+# Uses npm Trusted Publishing (OIDC), so no npm token is needed. On npmjs.com, the
 # card-react-native package must list this repo and `publish-npm.yml` as its trusted publisher.
 
 name: Publish npm
 
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+    branches:
+      - main
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Existing tag to publish, ex v1.0.9'
-        required: true
+      increment:
+        description: 'Version bump'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
+# Two merges close together release one after the other, never at the same time
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
-  publish:
+  release:
+    # The release commit pushed by this job must not start another release
+    if: "!startsWith(github.event.head_commit.message, 'chore: release')"
     runs-on: ubuntu-latest
+    env:
+      # No git hooks in CI, commit messages here come from release-it
+      LEFTHOOK: 0
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.tag || github.ref }}
+          ref: main
+          # release-it needs the tags to find the last version and build the changelog
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -42,15 +62,6 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
-      - name: Check package version matches the tag
-        run: |
-          TAG="${{ inputs.tag || github.ref_name }}"
-          VERSION="v$(node -p "require('./package.json').version")"
-          if [ "$TAG" != "$VERSION" ]; then
-            echo "Tag $TAG does not match package.json version $VERSION"
-            exit 1
-          fi
-
       - name: Install dependencies
         run: yarn install --immutable
 
@@ -59,6 +70,18 @@ jobs:
 
       - name: Build
         run: yarn prepare
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # Bumps, commits, tags, pushes and creates the GitHub release. npm.publish is false in the
+      # release-it config, publishing is the next step
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn release-it ${{ inputs.increment || 'patch' }} --ci
 
       # A re-run for a version that is already on npm would be rejected as a duplicate
       - name: Publish
