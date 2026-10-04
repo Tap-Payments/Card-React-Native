@@ -1,7 +1,8 @@
 # Publishes card-react-native to npm.
 #
 # Triggered by pushing a version tag (ex v1.0.9), or manually for an existing tag.
-# Needs the NPM_TOKEN repository secret (an npm automation / granular token with publish access).
+# Uses npm Trusted Publishing (OIDC), so no token or secret is needed. On npmjs.com, the
+# card-react-native package must list this repo and `publish-npm.yml` as its trusted publisher.
 
 name: Publish npm
 
@@ -37,6 +38,10 @@ jobs:
           corepack enable
           yarn --version
 
+      # Trusted publishing needs npm 11.5.1 or newer, node 20 ships with npm 10
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Check package version matches the tag
         run: |
           TAG="${{ inputs.tag || github.ref_name }}"
@@ -56,6 +61,4 @@ jobs:
         run: yarn prepare
 
       - name: Publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --provenance
+        run: npm publish --access public
